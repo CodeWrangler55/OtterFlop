@@ -1,0 +1,18 @@
+{
+  "vBRIEFInfo": {
+    "version": "0.6",
+    "author": "agent:deft-directive-setup",
+    "description": "Scope vBRIEF for interactive play and bedtime moments",
+    "created": "2026-05-15T23:45:00Z"
+  },
+  "plan": {
+    "title": "Otter Flop and bedtime interactions",
+    "status": "proposed",
+    "narratives": {
+      "Overview": "Build the tactile, child-facing interactions inside routine steps, especially dressing with interchangeable clothing, the Otter Flop catching-and-bouncing minigame, the visual prayer moment, and the lullaby/tuck-in sequence.",
+      "Requirements": "FR-1: Dressing allows choosing from unlocked interchangeable clothing items for the current otter kid. FR-2: Otter Flop is a simple touch interaction where dad catches the otter kid and bounces them on the bed. FR-3: Prayer is represented visually with mommy and daddy otter and does not display spoken prayer text. FR-4: Lullaby uses built-in instrumental audio and still works as a silent visual sequence when muted. NFR-1: Interactions must remain simple enough for preschool coordination. NFR-2: Audio must be optional and never required for progress.",
+      "Traces": "Implements FR-1 through FR-4 and NFR-1 through NFR-2."
+    },
+    "items": []
+  }
+}

@@ -1,0 +1,43 @@
+version: "3"
+
+includes:
+  deft:
+    taskfile: ./deft/Taskfile.yml
+    optional: true
+
+tasks:
+  default:
+    desc: List local tasks
+    cmds:
+      - task --list
+
+  install:
+    desc: Install frontend dependencies
+    cmds:
+      - npm install
+
+  dev:
+    desc: Start the local dev server
+    cmds:
+      - npm run dev -- --host 0.0.0.0
+
+  build:
+    desc: Build the app for GitHub Pages
+    cmds:
+      - npm run build
+
+  lint:
+    desc: Run TypeScript checks
+    cmds:
+      - npm run lint
+
+  test:
+    desc: Run tests with coverage
+    cmds:
+      - npm run test:run
+
+  check:
+    desc: Run the local quality gate
+    cmds:
+      - npm run check
+

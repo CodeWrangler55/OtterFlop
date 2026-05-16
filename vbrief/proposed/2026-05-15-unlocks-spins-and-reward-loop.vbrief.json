@@ -1,0 +1,18 @@
+{
+  "vBRIEFInfo": {
+    "version": "0.6",
+    "author": "agent:deft-directive-setup",
+    "description": "Scope vBRIEF for progression and unlock systems",
+    "created": "2026-05-15T23:45:00Z"
+  },
+  "plan": {
+    "title": "Unlocks, spins, and reward loop",
+    "status": "proposed",
+    "narratives": {
+      "Overview": "Implement the long-term progression loop: players begin with one otter kid, earn one bedtime reward only after all active otter kids finish for the night, and unlock new otter kids or outfits through a mix of completion rewards and a three-spins-per-hour prize system.",
+      "Requirements": "FR-1: The player starts with one otter kid and may unlock up to four kids for now. FR-2: The game grants three prize spins per hour. FR-3: Unlock rewards always prefer something new instead of duplicates. FR-4: Bedtime rewards are granted only after all active otter kids complete their nightly routines. FR-5: Future content additions join the unlock pool for existing saves without resetting progress. NFR-1: Reward feedback should feel encouraging but not overstimulating. NFR-2: Time-based spin refill logic must remain reliable across app restarts.",
+      "Traces": "Implements FR-1 through FR-5 and NFR-1 through NFR-2."
+    },
+    "items": []
+  }
+}

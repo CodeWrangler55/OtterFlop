@@ -1,0 +1,22 @@
+{
+  "vBRIEFInfo": {
+    "version": "0.6",
+    "author": "agent:codex",
+    "description": "Approved change proposal for the first OtterFlop implementation slice",
+    "created": "2026-05-15T23:59:00Z"
+  },
+  "plan": {
+    "title": "initial-game-scaffold-and-asset-catalog",
+    "status": "approved",
+    "narratives": {
+      "Problem": "OtterFlop has an approved product spec but no actual application scaffold, no game data model, no stable asset IDs, and no reviewable prompt catalog for future generated art. Starting implementation without those foundations would create fragile URLs, inconsistent content references, and asset churn.",
+      "Change": "Create the first implementation slice for the project: scaffold the GitHub Pages-friendly web app, define stable content and asset IDs, establish the save-data foundation, and create a reviewable `assets/` prompt catalog keyed to the same IDs the app uses.",
+      "Scope": "In scope: root project tooling, static web app scaffold, GitHub Pages base-path support, content model definitions, save/export/import foundation, initial app shell, asset catalog records, and prompt files for the first planned asset set. Out of scope: final illustrated asset generation, full bedtime gameplay implementation, advanced animations, and later unlock content.",
+      "Impact": "This change establishes the foundational structure that later gameplay, art generation, and save compatibility depend on. It affects the repository root, frontend source tree, project tooling, asset organization, and active implementation vBRIEFs.",
+      "Risks": "Main risks are over-designing the data model too early, choosing IDs that do not scale cleanly, or creating an asset catalog that is hard to extend. Another risk is setting up routing or asset paths that break on the GitHub Pages `/OtterFlop/` base path.",
+      "Approach": "Use a lightweight TypeScript web app scaffold with explicit base-path configuration, define typed content records for kids, outfits, scenes, and parents, implement a versioned save schema with local persistence and export/import hooks, and store human-reviewable prompt files in `assets/` with filenames keyed to the same IDs used by the app.",
+      "Alternatives": "A looser approach using ad hoc filenames and prompts was considered, but it would make later content additions and save migration harder. A server-backed save system was also considered, but it conflicts with the current low-cost static hosting plan.",
+      "Dependencies": "Requires the approved project definition, approved specification, approved cost estimate, and active scopes for app shell/save foundation and asset catalog/prompt pipeline."
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "vBRIEFInfo": {
+    "version": "0.6",
+    "author": "agent:deft-directive-setup",
+    "description": "Scope vBRIEF for offline support and parent tools",
+    "created": "2026-05-15T23:45:00Z"
+  },
+  "plan": {
+    "title": "Offline updates and parent save tools",
+    "status": "proposed",
+    "narratives": {
+      "Overview": "Add offline-first support and a hidden parent-only control surface for save export/import, while allowing the app to check for updated content in the background whenever internet is available.",
+      "Requirements": "FR-1: After first load, the game can run normally without internet access. FR-2: When internet is available, the app checks for updates in the background and adopts newer assets without blocking play. FR-3: If no internet is available, the game continues normal play using cached assets. FR-4: Parent-only controls allow export and import of save data as a file. FR-5: Parent controls are hidden behind a child-resistant gesture instead of an obvious button. NFR-1: Update checks must fail gracefully with no child-facing error state. NFR-2: Save export/import should be simple enough for a parent to use on a Fire tablet browser.",
+      "Traces": "Implements FR-1 through FR-5 and NFR-1 through NFR-2."
+    },
+    "items": []
+  }
+}

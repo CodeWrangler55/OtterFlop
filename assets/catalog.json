@@ -1,0 +1,198 @@
+{
+  "meta": {
+    "version": 1,
+    "generatedFor": "OtterFlop"
+  },
+  "assets": [
+    {
+      "id": "kid-pip",
+      "type": "kid",
+      "label": "Pip otter kid base character",
+      "group": "kids",
+      "promptFile": "assets/prompts/kid-pip.md",
+      "imageFile": "assets/generated/kid-pip.webp",
+      "status": "prompted"
+    },
+    {
+      "id": "kid-moss",
+      "type": "kid",
+      "label": "Moss otter kid base character",
+      "group": "kids",
+      "promptFile": "assets/prompts/kid-moss.md",
+      "imageFile": "assets/generated/kid-moss.webp",
+      "status": "prompted"
+    },
+    {
+      "id": "kid-bubble",
+      "type": "kid",
+      "label": "Bubble otter kid base character",
+      "group": "kids",
+      "promptFile": "assets/prompts/kid-bubble.md",
+      "imageFile": "assets/generated/kid-bubble.webp",
+      "status": "prompted"
+    },
+    {
+      "id": "kid-ember",
+      "type": "kid",
+      "label": "Ember otter kid base character",
+      "group": "kids",
+      "promptFile": "assets/prompts/kid-ember.md",
+      "imageFile": "assets/generated/kid-ember.webp",
+      "status": "prompted"
+    },
+    {
+      "id": "parent-mom",
+      "type": "parent",
+      "label": "Mommy otter character",
+      "group": "parents",
+      "promptFile": "assets/prompts/parent-mom.md",
+      "imageFile": "assets/generated/parent-mom.webp",
+      "status": "prompted"
+    },
+    {
+      "id": "parent-dad",
+      "type": "parent",
+      "label": "Daddy otter character",
+      "group": "parents",
+      "promptFile": "assets/prompts/parent-dad.md",
+      "imageFile": "assets/generated/parent-dad.webp",
+      "status": "prompted"
+    },
+    {
+      "id": "scene-home-bedroom-night",
+      "type": "scene",
+      "label": "Night bedroom home screen background",
+      "group": "scenes",
+      "promptFile": "assets/prompts/scene-home-bedroom-night.md",
+      "imageFile": "assets/generated/scene-home-bedroom-night.webp",
+      "status": "prompted"
+    },
+    {
+      "id": "scene-snack-table",
+      "type": "scene",
+      "label": "Feeding scene background",
+      "group": "scenes",
+      "promptFile": "assets/prompts/scene-snack-table.md",
+      "imageFile": "assets/generated/scene-snack-table.webp",
+      "status": "prompted"
+    },
+    {
+      "id": "scene-bathroom-sink",
+      "type": "scene",
+      "label": "Brush teeth scene background",
+      "group": "scenes",
+      "promptFile": "assets/prompts/scene-bathroom-sink.md",
+      "imageFile": "assets/generated/scene-bathroom-sink.webp",
+      "status": "prompted"
+    },
+    {
+      "id": "scene-prayer-bedroom",
+      "type": "scene",
+      "label": "Prayer moment bedroom scene",
+      "group": "scenes",
+      "promptFile": "assets/prompts/scene-prayer-bedroom.md",
+      "imageFile": "assets/generated/scene-prayer-bedroom.webp",
+      "status": "prompted"
+    },
+    {
+      "id": "scene-lullaby-bedroom",
+      "type": "scene",
+      "label": "Lullaby bedroom scene",
+      "group": "scenes",
+      "promptFile": "assets/prompts/scene-lullaby-bedroom.md",
+      "imageFile": "assets/generated/scene-lullaby-bedroom.webp",
+      "status": "prompted"
+    },
+    {
+      "id": "scene-tuck-in-bedroom",
+      "type": "scene",
+      "label": "Tuck-in bedtime scene",
+      "group": "scenes",
+      "promptFile": "assets/prompts/scene-tuck-in-bedroom.md",
+      "imageFile": "assets/generated/scene-tuck-in-bedroom.webp",
+      "status": "prompted"
+    },
+    {
+      "id": "prop-otter-flop-bed",
+      "type": "prop",
+      "label": "Otter Flop bed prop",
+      "group": "props",
+      "promptFile": "assets/prompts/prop-otter-flop-bed.md",
+      "imageFile": "assets/generated/prop-otter-flop-bed.webp",
+      "status": "prompted"
+    },
+    {
+      "id": "outfit-pajamas-moon",
+      "type": "outfit",
+      "label": "Moon pajamas outfit overlay",
+      "group": "outfits",
+      "promptFile": "assets/prompts/outfit-pajamas-moon.md",
+      "imageFile": "assets/generated/outfit-pajamas-moon.webp",
+      "status": "prompted"
+    },
+    {
+      "id": "outfit-pajamas-stars",
+      "type": "outfit",
+      "label": "Stars pajamas outfit overlay",
+      "group": "outfits",
+      "promptFile": "assets/prompts/outfit-pajamas-stars.md",
+      "imageFile": "assets/generated/outfit-pajamas-stars.webp",
+      "status": "prompted"
+    },
+    {
+      "id": "outfit-nightgown-cloud",
+      "type": "outfit",
+      "label": "Cloud nightgown outfit overlay",
+      "group": "outfits",
+      "promptFile": "assets/prompts/outfit-nightgown-cloud.md",
+      "imageFile": "assets/generated/outfit-nightgown-cloud.webp",
+      "status": "prompted"
+    },
+    {
+      "id": "outfit-sweater-sunset",
+      "type": "outfit",
+      "label": "Sunset sweater outfit overlay",
+      "group": "outfits",
+      "promptFile": "assets/prompts/outfit-sweater-sunset.md",
+      "imageFile": "assets/generated/outfit-sweater-sunset.webp",
+      "status": "prompted"
+    },
+    {
+      "id": "outfit-hat-nightcap",
+      "type": "outfit",
+      "label": "Nightcap hat overlay",
+      "group": "outfits",
+      "promptFile": "assets/prompts/outfit-hat-nightcap.md",
+      "imageFile": "assets/generated/outfit-hat-nightcap.webp",
+      "status": "prompted"
+    },
+    {
+      "id": "outfit-hat-bow",
+      "type": "outfit",
+      "label": "Bow hat overlay",
+      "group": "outfits",
+      "promptFile": "assets/prompts/outfit-hat-bow.md",
+      "imageFile": "assets/generated/outfit-hat-bow.webp",
+      "status": "prompted"
+    },
+    {
+      "id": "outfit-accessory-plush-fish",
+      "type": "outfit",
+      "label": "Plush fish accessory overlay",
+      "group": "outfits",
+      "promptFile": "assets/prompts/outfit-accessory-plush-fish.md",
+      "imageFile": "assets/generated/outfit-accessory-plush-fish.webp",
+      "status": "prompted"
+    },
+    {
+      "id": "outfit-accessory-shell-necklace",
+      "type": "outfit",
+      "label": "Shell necklace accessory overlay",
+      "group": "outfits",
+      "promptFile": "assets/prompts/outfit-accessory-shell-necklace.md",
+      "imageFile": "assets/generated/outfit-accessory-shell-necklace.webp",
+      "status": "prompted"
+    }
+  ]
+}
+

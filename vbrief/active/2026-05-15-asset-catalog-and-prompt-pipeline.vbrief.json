@@ -1,0 +1,19 @@
+{
+  "vBRIEFInfo": {
+    "version": "0.6",
+    "author": "agent:deft-directive-setup",
+    "description": "Scope vBRIEF for asset catalog and prompt-managed art workflow",
+    "created": "2026-05-15T23:52:00Z"
+  },
+  "plan": {
+    "title": "Asset catalog and prompt pipeline",
+    "status": "running",
+    "narratives": {
+      "Overview": "Define a structured asset system for OtterFlop so every generated visual has a stable ID, a matching prompt record in the assets folder, and a filename/content mapping that aligns with the game's unlock and rendering logic.",
+      "Requirements": "FR-1: The project includes an assets folder that stores the generation prompt for every image asset. FR-2: Every image asset has a stable ID that matches the content IDs used by the game for otter kids, outfits, scenes, parents, and UI art. FR-3: Prompt definitions are reviewable before image generation begins. FR-4: The asset pipeline supports layered dress-up content so new outfits can be added later without renaming or breaking prior asset references. NFR-1: Asset naming and IDs must be deterministic and human-auditable. NFR-2: The prompt catalog must preserve style consistency across future content additions.",
+      "Traces": "Implements FR-1 through FR-4 and NFR-1 through NFR-2."
+    },
+    "items": [],
+    "updated": "2026-05-16T00:37:42Z"
+  }
+}

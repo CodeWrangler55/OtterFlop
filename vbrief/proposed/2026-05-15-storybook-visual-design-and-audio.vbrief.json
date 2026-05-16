@@ -1,0 +1,18 @@
+{
+  "vBRIEFInfo": {
+    "version": "0.6",
+    "author": "agent:deft-directive-setup",
+    "description": "Scope vBRIEF for visual and sensory presentation",
+    "created": "2026-05-15T23:45:00Z"
+  },
+  "plan": {
+    "title": "Storybook visual design and audio",
+    "status": "proposed",
+    "narratives": {
+      "Overview": "Define and implement the soft pastel storybook presentation, large touch targets, gentle feedback, and low-reading interface patterns that make OtterFlop suitable for bedtime use by a young child.",
+      "Requirements": "FR-1: The game uses a soft pastel storybook visual style. FR-2: Child-facing screens rely mostly on imagery, icons, and animation rather than written instructions. FR-3: The game includes gentle sound effects and lullaby music but remains fully playable muted. NFR-1: Visual density must stay low enough to avoid overwhelming a preschool user. NFR-2: Buttons, tappable cards, and routine actions must be sized for tablet touch ergonomics. NFR-3: The overall tone should remain calm and bedtime-appropriate rather than noisy or arcade-like.",
+      "Traces": "Implements FR-1 through FR-3 and NFR-1 through NFR-3."
+    },
+    "items": []
+  }
+}

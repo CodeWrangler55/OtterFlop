@@ -1,0 +1,19 @@
+{
+  "vBRIEFInfo": {
+    "version": "0.6",
+    "author": "agent:deft-directive-setup",
+    "description": "Scope vBRIEF for app shell and save foundation",
+    "created": "2026-05-15T23:45:00Z"
+  },
+  "plan": {
+    "title": "OtterFlop app shell and save foundation",
+    "status": "running",
+    "narratives": {
+      "Overview": "Create the core static web app shell for OtterFlop, including routing/state transitions, touch-first layout, startup flow, and a versioned save-data model that supports nightly progress, unlock state, active otter roster, and future content additions.",
+      "Requirements": "FR-1: The app launches into a child-friendly home flow on Amazon Fire tablet browsers. FR-2: The app stores otter kids, outfits, spins, bedtime completion state, and unlock history in local browser storage. FR-3: The app auto-saves after meaningful state changes without requiring manual save actions. FR-4: Existing save files remain usable when new unlockable content is added later. NFR-1: Initial load and main interactions must stay lightweight enough for a Fire tablet browser. NFR-2: Touch targets must be large and forgiving for a 4-year-old. NFR-3: The save schema must be versioned so upgrades are predictable.",
+      "Traces": "Implements FR-1 through FR-4 and NFR-1 through NFR-3."
+    },
+    "items": [],
+    "updated": "2026-05-16T00:37:43Z"
+  }
+}

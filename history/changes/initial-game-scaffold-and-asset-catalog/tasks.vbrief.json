@@ -1,0 +1,48 @@
+{
+  "vBRIEFInfo": {
+    "version": "0.6",
+    "author": "agent:codex",
+    "description": "Task plan for the first OtterFlop implementation slice",
+    "created": "2026-05-15T23:59:00Z"
+  },
+  "plan": {
+    "title": "initial-game-scaffold-and-asset-catalog",
+    "status": "running",
+    "items": [
+      {
+        "id": "task-1",
+        "title": "Create root tooling and app scaffold",
+        "status": "completed"
+      },
+      {
+        "id": "task-2",
+        "title": "Define stable content IDs and asset catalog records",
+        "status": "completed"
+      },
+      {
+        "id": "task-3",
+        "title": "Implement save foundation and export/import hooks",
+        "status": "completed"
+      },
+      {
+        "id": "task-4",
+        "title": "Add tests and run quality gates",
+        "status": "completed"
+      }
+    ],
+    "edges": [
+      {
+        "from": "task-1",
+        "to": "task-2"
+      },
+      {
+        "from": "task-2",
+        "to": "task-3"
+      },
+      {
+        "from": "task-3",
+        "to": "task-4"
+      }
+    ]
+  }
+}
