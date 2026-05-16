@@ -1,19 +1,198 @@
 import { render, screen } from "@testing-library/react";
-import { describe, expect, it } from "vitest";
+import userEvent from "@testing-library/user-event";
+import { beforeEach, describe, expect, it, vi } from "vitest";
+import { advanceKidStep, createInitialSave, exportSaveToJson, saveGame } from "../game/save-game";
 import { App } from "./App";
 
 describe("App", () => {
-  it("renders the project shell details", () => {
+  beforeEach(() => {
+    localStorage.clear();
+    vi.useRealTimers();
+  });
+
+  it("renders the home screen details", () => {
     render(<App />);
 
     expect(screen.getByRole("heading", { name: "OtterFlop" })).toBeInTheDocument();
-    expect(screen.getByText(/GitHub Pages target/i)).toBeInTheDocument();
-    expect(screen.getByText(/asset prompt catalog/i)).toBeInTheDocument();
-    expect(screen.getByAltText("Pip")).toBeInTheDocument();
-    expect(screen.getByAltText(/Mommy otter character/i)).toBeInTheDocument();
-    expect(screen.getByAltText(/Concept family lineup/i)).toBeInTheDocument();
+    expect(screen.getByText(/Unlocked otter kids/i)).toBeInTheDocument();
+    expect(screen.getByText(/Surprise spins/i)).toBeInTheDocument();
+    expect(screen.getByText(/Nightly surprise/i)).toBeInTheDocument();
+    expect(screen.getAllByAltText("Pip").length).toBeGreaterThan(0);
     expect(
       screen.getByText("https://codewrangler55.github.io/OtterFlop/")
     ).toBeInTheDocument();
+  });
+
+  it("can enter the bedtime routine flow", async () => {
+    const user = userEvent.setup();
+
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: /start bedtime/i }));
+
+    expect(screen.getByRole("heading", { name: /Snack Time/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Give a bedtime snack/i })).toBeInTheDocument();
+    expect(screen.getByText(/Now helping Pip/i)).toBeInTheDocument();
+  });
+
+  it("can finish a bedtime and claim the nightly kid reward", async () => {
+    const user = userEvent.setup();
+
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: /start bedtime/i }));
+    await user.click(screen.getByRole("button", { name: /Give a bedtime snack/i }));
+    await user.click(screen.getByRole("button", { name: /Pick tonight's outfit/i }));
+    await user.click(screen.getByRole("button", { name: /Brush shiny teeth/i }));
+    await user.click(screen.getByRole("button", { name: /Jump to dad/i }));
+    await user.click(screen.getByRole("button", { name: /Fold paws together/i }));
+    await user.click(screen.getByRole("button", { name: /Listen to mommy's lullaby/i }));
+    await user.click(screen.getByRole("button", { name: /Finish bedtime for Pip/i }));
+    await user.click(screen.getByRole("button", { name: /Claim bedtime surprise/i }));
+
+    expect(screen.getByText(/Moss joined the bedtime family/i)).toBeInTheDocument();
+    expect(screen.getByText(/2\/4 kids/i)).toBeInTheDocument();
+  });
+
+  it("can use a spin to unlock a new outfit", async () => {
+    const user = userEvent.setup();
+
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: /Spin for a surprise/i }));
+
+    expect(screen.getByText(/Stars Pajamas is ready for dress-up time/i)).toBeInTheDocument();
+    expect(screen.getByText(/2 found/i)).toBeInTheDocument();
+  });
+
+  it("can dismiss a reward banner after a spin", async () => {
+    const user = userEvent.setup();
+
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: /Spin for a surprise/i }));
+    await user.click(screen.getByRole("button", { name: /Hide/i }));
+
+    expect(screen.queryByText(/Stars Pajamas is ready for dress-up time/i)).not.toBeInTheDocument();
+  });
+
+  it("opens the hidden parent menu and rejects invalid save files", async () => {
+    const user = userEvent.setup();
+
+    render(<App />);
+
+    const hotspot = screen.getByRole("button", { name: /open parent menu/i });
+    await user.click(hotspot);
+    await user.click(hotspot);
+    await user.click(hotspot);
+    await user.click(hotspot);
+
+    expect(screen.getByRole("dialog", { name: /parent menu/i })).toBeInTheDocument();
+
+    const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+    const badFile = new File(["not valid json"], "broken-save.json", {
+      type: "application/json"
+    });
+
+    await user.upload(fileInput, badFile);
+
+    expect(screen.getByText(/could not be loaded/i)).toBeInTheDocument();
+  });
+
+  it("can export a save file through the parent menu", async () => {
+    const user = userEvent.setup();
+    const createObjectURL = vi.fn(() => "blob:otterflop");
+    const revokeObjectURL = vi.fn();
+    const urlState = globalThis.URL;
+    const clickSpy = vi
+      .spyOn(HTMLAnchorElement.prototype, "click")
+      .mockImplementation(() => undefined);
+
+    Object.defineProperty(globalThis, "URL", {
+      configurable: true,
+      value: { ...urlState, createObjectURL, revokeObjectURL }
+    });
+
+    render(<App />);
+
+    const hotspot = screen.getByRole("button", { name: /open parent menu/i });
+    await user.click(hotspot);
+    await user.click(hotspot);
+    await user.click(hotspot);
+    await user.click(hotspot);
+    await user.click(screen.getByRole("button", { name: /Export save file/i }));
+
+    expect(createObjectURL).toHaveBeenCalled();
+
+    Object.defineProperty(globalThis, "URL", {
+      configurable: true,
+      value: urlState
+    });
+    clickSpy.mockRestore();
+  });
+
+  it("can import a valid save file through the parent menu", async () => {
+    const user = userEvent.setup();
+
+    render(<App />);
+
+    const hotspot = screen.getByRole("button", { name: /open parent menu/i });
+    await user.click(hotspot);
+    await user.click(hotspot);
+    await user.click(hotspot);
+    await user.click(hotspot);
+
+    const importedSave = createInitialSave(new Date("2026-05-15T20:00:00Z"));
+    importedSave.unlockedOutfitIds.push("outfit-pajamas-stars");
+    const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
+    const goodFile = new File([exportSaveToJson(importedSave)], "otterflop-save.json", {
+      type: "application/json"
+    });
+    const originalText = (goodFile as File & { text?: () => Promise<string> }).text;
+    Object.defineProperty(File.prototype, "text", {
+      configurable: true,
+      value: vi.fn().mockResolvedValue(exportSaveToJson(importedSave))
+    });
+
+    await user.upload(fileInput, goodFile);
+
+    expect(screen.queryByRole("dialog", { name: /parent menu/i })).not.toBeInTheDocument();
+    expect(screen.getByText(/2 found/i)).toBeInTheDocument();
+    Object.defineProperty(File.prototype, "text", {
+      configurable: true,
+      value: originalText
+    });
+  });
+
+  it("loads an existing completed bedtime and shows the reward-ready state", () => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date("2026-05-15T20:00:00Z"));
+
+    let save = createInitialSave(new Date("2026-05-15T20:00:00Z"));
+
+    for (let index = 0; index < 7; index += 1) {
+      save = advanceKidStep(save, "kid-pip", 7, new Date("2026-05-15T20:00:00Z"));
+    }
+
+    saveGame(save);
+    render(<App />);
+
+    expect(screen.getByRole("button", { name: /Visit the bedtime room/i })).toBeInTheDocument();
+    expect(screen.getByText(/A new reward is ready now/i)).toBeInTheDocument();
+  });
+
+  it("can switch between unlocked kids from the routine sidebar", async () => {
+    const user = userEvent.setup();
+    const save = createInitialSave(new Date("2026-05-15T20:00:00Z"));
+    save.unlockedKidIds.push("kid-moss");
+    save.bedtimeOrderKidIds = ["kid-pip", "kid-moss"];
+    save.selectedOutfitByKidId["kid-moss"] = "outfit-pajamas-moon";
+    save.bedtimeProgress.currentStepIndexByKidId["kid-moss"] = 0;
+    saveGame(save);
+
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: /start bedtime/i }));
+    await user.click(screen.getByRole("button", { name: /Moss Still awake/i }));
+
+    expect(screen.getByText(/Now helping Moss/i)).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: /Back home/i }));
+    expect(screen.getByText(/Unlocked otter kids/i)).toBeInTheDocument();
   });
 });

@@ -7,12 +7,13 @@
   },
   "plan": {
     "title": "Bedtime routine step flow",
-    "status": "proposed",
+    "status": "running",
     "narratives": {
       "Overview": "Implement the forward-only bedtime routine for one otter kid at a time: feeding, dressing, brushing teeth, Otter Flop play with dad, visual prayer moment, instrumental lullaby, and final tuck-in.",
       "Requirements": "FR-1: Each otter kid follows the same ordered bedtime flow with no child-facing branching. FR-2: A kid is marked complete only after all routine steps are finished. FR-3: The game supports caring for multiple unlocked otter kids one at a time in sequence. FR-4: Completion progress is clearly visible without requiring much reading. NFR-1: The flow must be calm, short-step, and easy for a preschooler to understand. NFR-2: The UI should rely mostly on icons, animation, and scene cues instead of text-heavy instructions.",
       "Traces": "Implements FR-1 through FR-4 and NFR-1 through NFR-2."
     },
-    "items": []
+    "items": [],
+    "updated": "2026-05-16T02:21:50Z"
   }
 }

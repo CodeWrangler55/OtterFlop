@@ -24,6 +24,25 @@ export type OutfitDefinition = {
   assetId: string;
 };
 
+export type BedtimeStepId =
+  | "feed"
+  | "dress"
+  | "brush"
+  | "flop"
+  | "prayer"
+  | "lullaby"
+  | "tuck";
+
+export type BedtimeStepDefinition = {
+  id: BedtimeStepId;
+  title: string;
+  actionLabel: string;
+  detail: string;
+  sceneAssetId: string;
+  parentAssetIds?: string[];
+  propAssetId?: string;
+};
+
 type AssetCatalogFile = {
   meta: {
     version: number;
@@ -93,6 +112,63 @@ export const conceptAssets = assetCatalog.filter((asset) => asset.type === "conc
 
 export const starterKidId = kids[0].id;
 export const starterOutfitId = outfits[0].id;
+export const MAX_ACTIVE_KIDS = 4;
+
+export const bedtimeSteps: BedtimeStepDefinition[] = [
+  {
+    id: "feed",
+    title: "Snack Time",
+    actionLabel: "Give a bedtime snack",
+    detail: "Help this otter kid have a cozy little snack before bed.",
+    sceneAssetId: "scene-snack-table"
+  },
+  {
+    id: "dress",
+    title: "Choose Pajamas",
+    actionLabel: "Pick tonight's outfit",
+    detail: "Choose one unlocked bedtime outfit.",
+    sceneAssetId: "scene-home-bedroom-night"
+  },
+  {
+    id: "brush",
+    title: "Brush Teeth",
+    actionLabel: "Brush shiny teeth",
+    detail: "A quick brush keeps bedtime gentle and calm.",
+    sceneAssetId: "scene-bathroom-sink"
+  },
+  {
+    id: "flop",
+    title: "Otter Flop",
+    actionLabel: "Jump to dad",
+    detail: "Dad catches the jump and gives a happy bounce onto the bed.",
+    sceneAssetId: "scene-home-bedroom-night",
+    parentAssetIds: ["parent-dad"],
+    propAssetId: "prop-otter-flop-bed"
+  },
+  {
+    id: "prayer",
+    title: "Prayer Time",
+    actionLabel: "Fold paws together",
+    detail: "Mommy and daddy join a quiet prayer moment with the kids.",
+    sceneAssetId: "scene-prayer-bedroom",
+    parentAssetIds: ["parent-mom", "parent-dad"]
+  },
+  {
+    id: "lullaby",
+    title: "Lullaby",
+    actionLabel: "Listen to mommy's lullaby",
+    detail: "Mommy sings a soft instrumental bedtime tune.",
+    sceneAssetId: "scene-lullaby-bedroom",
+    parentAssetIds: ["parent-mom"]
+  },
+  {
+    id: "tuck",
+    title: "Tuck In",
+    actionLabel: "Tuck into bed",
+    detail: "Snuggle in under the blanket and say goodnight.",
+    sceneAssetId: "scene-tuck-in-bedroom"
+  }
+];
 
 export function hasAssetId(id: string): boolean {
   return assetCatalog.some((asset) => asset.id === id);

@@ -1,7 +1,7 @@
 :root {
   font-family: Inter, "Segoe UI", sans-serif;
-  color: #213042;
-  background: #f7f3ff;
+  color: #223349;
+  background: #f6f1ff;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -17,8 +17,13 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background:
-    radial-gradient(circle at top left, #ffe8c9 0, #ffe8c9 18%, transparent 19%),
-    linear-gradient(180deg, #f9d9f2 0%, #e5ecff 55%, #d8f3ef 100%);
+    radial-gradient(circle at top left, #ffecc8 0, #ffecc8 16%, transparent 17%),
+    linear-gradient(180deg, #f9d8ef 0%, #e7eeff 54%, #d7f1ec 100%);
+}
+
+button,
+input {
+  font: inherit;
 }
 
 code {
@@ -27,113 +32,408 @@ code {
 }
 
 .app-shell {
-  max-width: 1040px;
+  position: relative;
+  max-width: 1180px;
   margin: 0 auto;
   padding: 24px 16px 48px;
 }
 
+.parent-hotspot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 84px;
+  height: 84px;
+  border: 0;
+  background: transparent;
+  opacity: 0.01;
+}
+
 .hero {
-  padding: 28px 20px 120px;
   border-radius: 8px;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  color: #fffdfb;
+  color: #fffefc;
   overflow: hidden;
 }
 
-.eyebrow {
+.hero-game {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.8fr);
+  gap: 18px;
+  padding: 24px 20px;
+  min-height: 320px;
+}
+
+.hero-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.eyebrow,
+.kicker {
   margin: 0 0 8px;
-  font-size: 0.9rem;
+  font-size: 0.84rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: #895f91;
+}
+
+.hero .eyebrow,
+.hero .kicker,
+.hero .lead,
+.hero h1 {
+  color: #fff8f5;
 }
 
 .hero h1 {
   margin: 0;
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  line-height: 1.05;
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  line-height: 1.02;
 }
 
 .lead {
-  max-width: 720px;
-  margin: 12px 0 0;
-  font-size: 1.05rem;
-  line-height: 1.55;
+  max-width: 560px;
+  margin: 0;
+  font-size: 1.04rem;
+  line-height: 1.5;
 }
 
-.hero .eyebrow,
-.hero .lead {
-  color: #fff7f3;
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.hero-status {
+  display: grid;
+  gap: 2px;
+  min-width: 150px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: rgba(255, 251, 247, 0.18);
+  backdrop-filter: blur(4px);
+}
+
+.hero-status strong {
+  font-size: 1.4rem;
+}
+
+.hero-family {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-content: end;
+  gap: 12px;
 }
 
 .panel-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 16px;
+  margin-top: 16px;
 }
 
-.panel {
-  min-height: 220px;
+.panel,
+.routine-stage,
+.routine-sidebar .panel,
+.parent-modal {
   padding: 18px;
-  border: 2px solid rgba(93, 79, 128, 0.15);
+  border: 2px solid rgba(96, 80, 128, 0.14);
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.82);
-  box-shadow: 0 10px 26px rgba(59, 63, 102, 0.08);
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 12px 28px rgba(59, 63, 102, 0.08);
 }
 
 .panel-wide {
   grid-column: 1 / -1;
 }
 
-.character-strip {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+.panel-heading {
+  display: flex;
+  justify-content: space-between;
   gap: 12px;
+  align-items: flex-start;
 }
 
-.character-card,
-.outfit-card {
+.panel h2,
+.panel h3,
+.parent-modal h2,
+.routine-stage h2 {
   margin: 0;
+  font-size: 1.15rem;
+}
+
+.panel p,
+.routine-stage p,
+.parent-modal p,
+.panel li {
+  line-height: 1.5;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 12px;
+  border-radius: 999px;
+  background: #eef2ff;
+  color: #44597d;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.primary-button,
+.secondary-button,
+.selectable-card,
+.kid-status-card {
+  border-radius: 8px;
+}
+
+.primary-button,
+.secondary-button {
+  min-height: 50px;
+  padding: 0 18px;
+  border: 0;
+  cursor: pointer;
+  transition: transform 120ms ease, opacity 120ms ease;
+}
+
+.primary-button {
+  background: #f57cb1;
+  color: #fffdfb;
+  font-weight: 700;
+}
+
+.secondary-button {
+  background: #eef2ff;
+  color: #314766;
+  font-weight: 700;
+}
+
+.primary-button:disabled,
+.secondary-button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.primary-button:not(:disabled):active,
+.secondary-button:not(:disabled):active,
+.selectable-card:active,
+.kid-status-card:active {
+  transform: scale(0.985);
+}
+
+.reward-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 8px;
+  background: #fff8de;
+  border: 2px solid rgba(219, 194, 118, 0.45);
+}
+
+.routine-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.7fr);
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.routine-stage {
+  min-height: 640px;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.routine-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.routine-progress {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.step-dot {
+  height: 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 2px solid rgba(103, 118, 160, 0.18);
+}
+
+.step-dot-active {
+  background: #ffd77b;
+}
+
+.step-dot-done {
+  background: #80d8c1;
+}
+
+.routine-characters {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(180px, 0.8fr);
+  gap: 16px;
+  align-items: end;
+  min-height: 300px;
+}
+
+.routine-supporting-art {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  align-items: end;
+}
+
+.supporting-figure,
+.supporting-prop {
+  width: min(38vw, 180px);
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.routine-button {
+  width: 100%;
+  margin-top: 18px;
+}
+
+.kid-status-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.kid-status-card,
+.selectable-card {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 8px;
+  align-items: center;
+  padding: 12px;
+  border: 2px solid rgba(96, 80, 128, 0.14);
+  background: rgba(255, 255, 255, 0.84);
+  text-align: center;
 }
 
-.character-image,
-.outfit-image {
+.kid-status-card {
   width: 100%;
-  max-width: 140px;
+}
+
+.selectable-card {
+  cursor: pointer;
+}
+
+.card-selected {
+  border-color: #f57cb1;
+  box-shadow: 0 0 0 2px rgba(245, 124, 177, 0.2);
+}
+
+.avatar-stack {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 132px;
   aspect-ratio: 1 / 1;
+}
+
+.avatar-stack-large {
+  width: min(52vw, 260px);
+}
+
+.avatar-base,
+.avatar-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
+}
+
+.avatar-overlay {
+  transform: scale(0.97);
 }
 
 .outfit-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
 }
 
-.concept-sheet {
-  display: block;
-  width: 100%;
-  max-width: 560px;
-  margin-top: 16px;
-  border-radius: 6px;
-}
-
-.panel h2 {
-  margin: 0 0 12px;
-  font-size: 1.1rem;
-}
-
-.panel ul {
+.outfit-card {
   margin: 0;
+}
+
+.outfit-image {
+  width: 100%;
+  max-width: 130px;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+}
+
+.stat-list {
+  margin: 14px 0 0;
   padding-left: 18px;
-  line-height: 1.55;
+}
+
+.small-note {
+  margin-bottom: 0;
+  color: #556983;
+  font-size: 0.94rem;
+}
+
+.error-note {
+  color: #9f2f58;
+}
+
+.parent-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: rgba(24, 28, 51, 0.42);
+}
+
+.parent-modal {
+  width: min(100%, 520px);
+}
+
+.parent-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.hidden-input {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .hero-game,
+  .routine-layout,
+  .routine-characters {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-family {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 
 @media (max-width: 640px) {
@@ -141,7 +441,26 @@ code {
     padding-inline: 12px;
   }
 
-  .panel {
-    min-height: 0;
+  .hero-game {
+    padding: 20px 16px;
+  }
+
+  .hero-family {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .panel-heading,
+  .routine-header,
+  .reward-banner {
+    flex-direction: column;
+  }
+
+  .primary-button,
+  .secondary-button {
+    width: 100%;
+  }
+
+  .pill {
+    align-self: flex-start;
   }
 }
