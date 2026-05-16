@@ -9,7 +9,7 @@ import {
   toRuntimeAssetUrl
 } from "../game/content";
 import {
-  UnlockReward,
+  type UnlockReward,
   applyNightlyReward,
   applySpinReward,
   getCurrentStep,
@@ -34,67 +34,27 @@ import {
   saveGame,
   setKidOutfit
 } from "../game/save-game";
+import { KidAvatar } from "./components/KidAvatar";
+import { RewardBanner } from "./components/RewardBanner";
+import { SpinWheel, type SpinWheelSegment } from "./components/SpinWheel";
+import { RoutineStepContent } from "./steps/RoutineStepContent";
 
 type ScreenMode = "home" | "routine";
 
 const deployUrl = "https://codewrangler55.github.io/OtterFlop/";
 const parentTapGoal = 4;
 
-function KidAvatar({
-  kidId,
-  outfitId,
-  label,
-  size = "regular"
-}: {
-  kidId: string;
-  outfitId?: string;
-  label: string;
-  size?: "regular" | "large";
-}) {
-  const kid = kids.find((entry) => entry.id === kidId)!;
-  const kidAsset = getAssetById(kid.baseAssetId);
-  const outfit = outfitId ? outfits.find((entry) => entry.id === outfitId) ?? null : null;
-  const outfitAsset = outfit ? getAssetById(outfit.assetId) : null;
+type SpinOutcome = {
+  save: ReturnType<typeof createInitialSave>;
+  reward: UnlockReward | null;
+};
 
-  return (
-    <div className={`avatar-stack avatar-stack-${size}`} aria-label={label}>
-      <img src={toRuntimeAssetUrl(kidAsset.imageFile)} alt={label} className="avatar-base" />
-      {outfitAsset ? (
-        <img
-          src={toRuntimeAssetUrl(outfitAsset.imageFile)}
-          alt=""
-          aria-hidden="true"
-          className="avatar-overlay"
-        />
-      ) : null}
-    </div>
-  );
-}
-
-function RewardBanner({
-  reward,
-  onDismiss
-}: {
-  reward: UnlockReward;
-  onDismiss: () => void;
-}) {
-  const message =
-    reward.kind === "kid"
-      ? `${reward.displayName} joined the bedtime family.`
-      : `${reward.displayName} is ready for dress-up time.`;
-
-  return (
-    <div className="reward-banner" role="status">
-      <div>
-        <p className="kicker">{reward.source === "spin" ? "Spin surprise" : "Bedtime surprise"}</p>
-        <strong>{message}</strong>
-      </div>
-      <button type="button" className="secondary-button" onClick={onDismiss}>
-        Hide
-      </button>
-    </div>
-  );
-}
+const outfitWheelPalette = [
+  { fillColor: "#d7dcff", accentColor: "#90a4ff" },
+  { fillColor: "#ffe3bf", accentColor: "#f8b96d" },
+  { fillColor: "#ffd5e5", accentColor: "#f38cb1" },
+  { fillColor: "#d9f1e7", accentColor: "#7fd0ae" }
+];
 
 export function App() {
   const [save, setSave] = useState(() => {
@@ -107,8 +67,12 @@ export function App() {
   const [parentMenuOpen, setParentMenuOpen] = useState(false);
   const [parentTapCount, setParentTapCount] = useState(0);
   const [importError, setImportError] = useState<string | null>(null);
+  const [spinRewardId, setSpinRewardId] = useState<string | null>(null);
+  const [spinToken, setSpinToken] = useState(0);
+  const [isSpinAnimating, setIsSpinAnimating] = useState(false);
+  const [pendingSpinOutcome, setPendingSpinOutcome] = useState<SpinOutcome | null>(null);
   const importInputRef = useRef<HTMLInputElement | null>(null);
-  const audioContextRef = useRef<AudioContext | null>(null);
+  const parentTapTimeoutIds = useRef<number[]>([]);
   const heroScene = sceneAssets.find((scene) => scene.id === "scene-home-bedroom-night")!;
 
   useEffect(() => {
@@ -126,6 +90,15 @@ export function App() {
     return () => {
       globalThis.clearInterval(interval);
       document.removeEventListener("visibilitychange", syncSave);
+    };
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      parentTapTimeoutIds.current.forEach((timeoutId) => {
+        globalThis.clearTimeout(timeoutId);
+      });
+      parentTapTimeoutIds.current = [];
     };
   }, []);
 
@@ -162,14 +135,40 @@ export function App() {
   const remainingUnlocks = getRemainingUnlockCounts(save);
   const nightReadyForReward = canClaimNightlyReward(save);
   const nightIsComplete = isNightComplete(save);
+  const stepHandledByComponent =
+    currentStep.id === "feed" || currentStep.id === "flop" || currentStep.id === "lullaby";
+  const spinSegments = useMemo<SpinWheelSegment[]>(() => {
+    const remainingKids = kids
+      .filter((kid) => !save.unlockedKidIds.includes(kid.id))
+      .map((kid) => ({
+        id: kid.id,
+        label: kid.displayName,
+        fillColor: "#f7a8c4",
+        accentColor: "#ef7da9"
+      }));
+    const remainingOutfits = outfits
+      .filter((outfit) => !save.unlockedOutfitIds.includes(outfit.id))
+      .map((outfit, index) => {
+        const palette = outfitWheelPalette[index % outfitWheelPalette.length];
+        return {
+          id: outfit.id,
+          label: outfit.displayName,
+          fillColor: palette.fillColor,
+          accentColor: palette.accentColor
+        };
+      });
+
+    return [...remainingOutfits, ...remainingKids];
+  }, [save.unlockedKidIds, save.unlockedOutfitIds]);
 
   function handleParentTap() {
     const nextCount = parentTapCount + 1;
     setParentTapCount(nextCount);
 
-    globalThis.setTimeout(() => {
+    const timeoutId = globalThis.setTimeout(() => {
       setParentTapCount((count) => Math.max(0, count - 1));
     }, 2_000);
+    parentTapTimeoutIds.current.push(timeoutId);
 
     if (nextCount >= parentTapGoal) {
       setParentMenuOpen(true);
@@ -183,17 +182,9 @@ export function App() {
     setScreen("routine");
   }
 
-  function handleStepAction() {
-    if (!activeKidId) {
-      return;
-    }
-
-    if (currentStep.id === "lullaby") {
-      void playLullaby();
-    }
-
-    const nextSave = advanceKidStep(save, activeKidId, totalBedtimeSteps);
-    const completed = nextSave.bedtimeProgress.nightlyCompletedKidIds.includes(activeKidId);
+  function advanceRoutineForKid(kidId: string) {
+    const nextSave = advanceKidStep(save, kidId, totalBedtimeSteps);
+    const completed = nextSave.bedtimeProgress.nightlyCompletedKidIds.includes(kidId);
     setSave(nextSave);
 
     if (completed) {
@@ -207,6 +198,14 @@ export function App() {
     }
   }
 
+  function handleStepAction() {
+    if (!activeKidId) {
+      return;
+    }
+
+    advanceRoutineForKid(activeKidId);
+  }
+
   function handleSelectOutfit(outfitId: string) {
     if (!activeKidId) {
       return;
@@ -216,52 +215,27 @@ export function App() {
   }
 
   function handleSpin() {
+    if (isSpinAnimating) {
+      return;
+    }
+
     const outcome = applySpinReward(save);
-    setSave(outcome.save);
-    setReward(outcome.reward);
+
+    if (!outcome.reward) {
+      setSave(outcome.save);
+      return;
+    }
+
+    setPendingSpinOutcome(outcome);
+    setSpinRewardId(outcome.reward.id);
+    setSpinToken((current) => current + 1);
+    setIsSpinAnimating(true);
   }
 
   function handleClaimReward() {
     const outcome = applyNightlyReward(save);
     setSave(outcome.save);
     setReward(outcome.reward);
-  }
-
-  async function playLullaby() {
-    const AudioContextCtor =
-      globalThis.AudioContext ??
-      (globalThis as typeof globalThis & { webkitAudioContext?: typeof AudioContext })
-        .webkitAudioContext;
-
-    if (!AudioContextCtor) {
-      return;
-    }
-
-    const context = audioContextRef.current ?? new AudioContextCtor();
-    audioContextRef.current = context;
-
-    if (context.state === "suspended") {
-      await context.resume();
-    }
-
-    const notes = [523.25, 659.25, 587.33, 523.25];
-    const start = context.currentTime;
-
-    notes.forEach((frequency, index) => {
-      const oscillator = context.createOscillator();
-      const gain = context.createGain();
-      const noteStart = start + index * 0.24;
-
-      oscillator.type = "sine";
-      oscillator.frequency.value = frequency;
-      gain.gain.setValueAtTime(0.0001, noteStart);
-      gain.gain.linearRampToValueAtTime(0.12, noteStart + 0.04);
-      gain.gain.exponentialRampToValueAtTime(0.0001, noteStart + 0.22);
-      oscillator.connect(gain);
-      gain.connect(context.destination);
-      oscillator.start(noteStart);
-      oscillator.stop(noteStart + 0.24);
-    });
   }
 
   function downloadSaveFile() {
@@ -280,6 +254,19 @@ export function App() {
     globalThis.setTimeout(() => {
       globalThis.URL.revokeObjectURL(objectUrl);
     }, 0);
+  }
+
+  function handleSpinReveal() {
+    if (!pendingSpinOutcome) {
+      setIsSpinAnimating(false);
+      return;
+    }
+
+    setSave(pendingSpinOutcome.save);
+    setReward(pendingSpinOutcome.reward);
+    setPendingSpinOutcome(null);
+    setIsSpinAnimating(false);
+    setSpinRewardId(null);
   }
 
   async function importSaveFile(file: File) {
@@ -381,65 +368,61 @@ export function App() {
               ))}
             </div>
 
-            <div className="routine-characters">
-              <KidAvatar
-                kidId={activeKid.id}
-                outfitId={save.selectedOutfitByKidId[activeKid.id]}
-                label={activeKid.displayName}
-                size="large"
-              />
+            {currentStep.id !== "flop" ? (
+              <div className="routine-characters">
+                <KidAvatar
+                  kidId={activeKid.id}
+                  outfitId={save.selectedOutfitByKidId[activeKid.id]}
+                  label={activeKid.displayName}
+                  size="large"
+                />
 
-              <div className="routine-supporting-art">
-                {currentStep.parentAssetIds?.map((assetId) => {
-                  const asset = getAssetById(assetId);
-                  return (
-                    <img
-                      key={asset.id}
-                      src={toRuntimeAssetUrl(asset.imageFile)}
-                      alt={asset.label}
-                      className="supporting-figure"
-                    />
-                  );
-                })}
-                {currentStep.propAssetId ? (
-                  <img
-                    src={toRuntimeAssetUrl(getAssetById(currentStep.propAssetId).imageFile)}
-                    alt="Otter Flop bed"
-                    className="supporting-prop"
-                  />
-                ) : null}
-              </div>
-            </div>
-
-            {currentStep.id === "dress" ? (
-              <div className="outfit-grid">
-                {unlockedOutfits.map((outfit) => {
-                  const asset = getAssetById(outfit.assetId);
-                  const selected = save.selectedOutfitByKidId[activeKid.id] === outfit.id;
-                  return (
-                    <button
-                      type="button"
-                      key={outfit.id}
-                      className={`outfit-card selectable-card ${selected ? "card-selected" : ""}`}
-                      onClick={() => handleSelectOutfit(outfit.id)}
-                    >
+                <div className="routine-supporting-art">
+                  {currentStep.parentAssetIds?.map((assetId) => {
+                    const asset = getAssetById(assetId);
+                    return (
                       <img
+                        key={asset.id}
                         src={toRuntimeAssetUrl(asset.imageFile)}
-                        alt={outfit.displayName}
-                        className="outfit-image"
+                        alt={asset.label}
+                        className="supporting-figure"
                       />
-                      <span>{outfit.displayName}</span>
-                    </button>
-                  );
-                })}
+                    );
+                  })}
+                  {currentStep.propAssetId ? (
+                    <img
+                      src={toRuntimeAssetUrl(getAssetById(currentStep.propAssetId).imageFile)}
+                      alt="Otter Flop bed"
+                      className="supporting-prop"
+                    />
+                  ) : null}
+                </div>
               </div>
             ) : null}
 
-            <button type="button" className="primary-button routine-button" onClick={handleStepAction}>
-              {currentStepIndex + 1 === totalBedtimeSteps
-                ? `Finish bedtime for ${activeKid.displayName}`
-                : currentStep.actionLabel}
-            </button>
+            <RoutineStepContent
+              step={currentStep}
+              activeKidId={activeKid.id}
+              unlockedOutfits={unlockedOutfits}
+              selectedOutfitId={save.selectedOutfitByKidId[activeKid.id]}
+              onSelectOutfit={handleSelectOutfit}
+              activeKidName={activeKid.displayName}
+              onCompleteSnack={() => advanceRoutineForKid(activeKid.id)}
+              onCompleteFlop={() => advanceRoutineForKid(activeKid.id)}
+              onCompleteLullaby={() => advanceRoutineForKid(activeKid.id)}
+            />
+
+            {!stepHandledByComponent ? (
+              <button
+                type="button"
+                className="primary-button routine-button"
+                onClick={handleStepAction}
+              >
+                {currentStepIndex + 1 === totalBedtimeSteps
+                  ? `Finish bedtime for ${activeKid.displayName}`
+                  : currentStep.actionLabel}
+              </button>
+            ) : null}
           </article>
 
           <aside className="routine-sidebar">
@@ -514,14 +497,15 @@ export function App() {
               <span className="pill">{save.spinState.available} ready</span>
             </div>
             <p>Spins refill up to three, at one new spin each hour.</p>
-            <button
-              type="button"
-              className="primary-button"
-              onClick={handleSpin}
+            <SpinWheel
+              segments={spinSegments}
+              rewardId={spinRewardId}
+              spinToken={spinToken}
+              isSpinning={isSpinAnimating}
               disabled={save.spinState.available === 0 || !hasAnyUnlocksRemaining(save)}
-            >
-              Spin for a surprise
-            </button>
+              onSpin={handleSpin}
+              onReveal={handleSpinReveal}
+            />
             <ul className="stat-list">
               <li>Kids left to unlock: {remainingUnlocks.kids}</li>
               <li>Outfits left to unlock: {remainingUnlocks.outfits}</li>

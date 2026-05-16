@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { advanceKidStep, createInitialSave, exportSaveToJson, saveGame } from "../game/save-game";
@@ -30,7 +30,7 @@ describe("App", () => {
     await user.click(screen.getByRole("button", { name: /start bedtime/i }));
 
     expect(screen.getByRole("heading", { name: /Snack Time/i })).toBeInTheDocument();
-    expect(screen.getByRole("button", { name: /Give a bedtime snack/i })).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: /Berry Bowl/i })).toBeInTheDocument();
     expect(screen.getByText(/Now helping Pip/i)).toBeInTheDocument();
   });
 
@@ -39,12 +39,18 @@ describe("App", () => {
 
     render(<App />);
     await user.click(screen.getByRole("button", { name: /start bedtime/i }));
-    await user.click(screen.getByRole("button", { name: /Give a bedtime snack/i }));
+    await user.click(screen.getByRole("button", { name: /Berry Bowl/i }));
     await user.click(screen.getByRole("button", { name: /Pick tonight's outfit/i }));
     await user.click(screen.getByRole("button", { name: /Brush shiny teeth/i }));
     await user.click(screen.getByRole("button", { name: /Jump to dad/i }));
+    await waitFor(
+      () => {
+        expect(screen.getByRole("button", { name: /Fold paws together/i })).toBeInTheDocument();
+      },
+      { timeout: 2_500 }
+    );
     await user.click(screen.getByRole("button", { name: /Fold paws together/i }));
-    await user.click(screen.getByRole("button", { name: /Listen to mommy's lullaby/i }));
+    await user.click(screen.getByRole("button", { name: /Play lullaby/i }));
     await user.click(screen.getByRole("button", { name: /Finish bedtime for Pip/i }));
     await user.click(screen.getByRole("button", { name: /Claim bedtime surprise/i }));
 
@@ -57,6 +63,7 @@ describe("App", () => {
 
     render(<App />);
     await user.click(screen.getByRole("button", { name: /Spin for a surprise/i }));
+    fireEvent.transitionEnd(screen.getByRole("img", { name: /Prize wheel/i }));
 
     expect(screen.getByText(/Stars Pajamas is ready for dress-up time/i)).toBeInTheDocument();
     expect(screen.getByText(/2 found/i)).toBeInTheDocument();
@@ -67,6 +74,7 @@ describe("App", () => {
 
     render(<App />);
     await user.click(screen.getByRole("button", { name: /Spin for a surprise/i }));
+    fireEvent.transitionEnd(screen.getByRole("img", { name: /Prize wheel/i }));
     await user.click(screen.getByRole("button", { name: /Hide/i }));
 
     expect(screen.queryByText(/Stars Pajamas is ready for dress-up time/i)).not.toBeInTheDocument();
@@ -194,5 +202,20 @@ describe("App", () => {
 
     await user.click(screen.getByRole("button", { name: /Back home/i }));
     expect(screen.getByText(/Unlocked otter kids/i)).toBeInTheDocument();
+  });
+
+  it("reveals a spin reward only after the wheel finishes animating", async () => {
+    const user = userEvent.setup();
+
+    render(<App />);
+    await user.click(screen.getByRole("button", { name: /Spin for a surprise/i }));
+
+    expect(screen.queryByText(/Stars Pajamas is ready for dress-up time/i)).not.toBeInTheDocument();
+
+    fireEvent.transitionEnd(screen.getByRole("img", { name: /Prize wheel/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText(/Stars Pajamas is ready for dress-up time/i)).toBeInTheDocument();
+    });
   });
 });

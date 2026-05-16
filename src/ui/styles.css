@@ -239,6 +239,123 @@ code {
   border: 2px solid rgba(219, 194, 118, 0.45);
 }
 
+.spin-wheel-card {
+  display: grid;
+  gap: 18px;
+  padding: 18px;
+  border: 2px solid rgba(96, 80, 128, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.86);
+  box-shadow: 0 12px 28px rgba(59, 63, 102, 0.08);
+}
+
+.spin-wheel-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  gap: 18px;
+  align-items: center;
+}
+
+.spin-wheel-stage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding-top: 18px;
+}
+
+.spin-wheel-pointer {
+  position: absolute;
+  top: 0;
+  z-index: 2;
+  width: 0;
+  height: 0;
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+  border-top: 28px solid #f57cb1;
+  filter: drop-shadow(0 4px 8px rgba(52, 32, 70, 0.18));
+}
+
+.spin-wheel {
+  --spin-wheel-gradient: conic-gradient(from -90deg, #eef2ff 0deg 360deg);
+  --spin-wheel-rotation: 0deg;
+  position: relative;
+  width: min(64vw, 280px);
+  aspect-ratio: 1 / 1;
+  border-radius: 50%;
+  border: 10px solid rgba(255, 253, 251, 0.96);
+  background: var(--spin-wheel-gradient);
+  box-shadow:
+    inset 0 0 0 5px rgba(83, 94, 148, 0.08),
+    0 18px 36px rgba(59, 63, 102, 0.14);
+  transform: rotate(var(--spin-wheel-rotation));
+  transition: transform 4.2s cubic-bezier(0.18, 0.95, 0.22, 1);
+  overflow: hidden;
+}
+
+.spin-wheel::after {
+  content: "";
+  position: absolute;
+  inset: 10%;
+  border-radius: 50%;
+  border: 2px dashed rgba(255, 255, 255, 0.45);
+}
+
+.spin-wheel-active {
+  filter: saturate(1.06);
+}
+
+.spin-wheel-center {
+  position: absolute;
+  inset: 37%;
+  z-index: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #fff4d2 0%, #ffd77b 48%, #f3a86a 100%);
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.55),
+    0 4px 10px rgba(52, 32, 70, 0.12);
+}
+
+.spin-wheel-label {
+  --spin-wheel-label-rotation: 0deg;
+  --spin-wheel-label-color: #fffdfb;
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: start center;
+  padding-top: 18px;
+  transform: rotate(var(--spin-wheel-label-rotation));
+}
+
+.spin-wheel-label span {
+  display: inline-flex;
+  width: 74px;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  color: var(--spin-wheel-label-color);
+  text-shadow: 0 1px 2px rgba(42, 34, 68, 0.3);
+  transform: rotate(calc(var(--spin-wheel-label-rotation) * -1));
+}
+
+.spin-wheel-sidebar {
+  display: grid;
+  gap: 12px;
+}
+
+.spin-wheel-reveal {
+  padding: 14px 16px;
+  border-radius: 8px;
+  border: 2px solid color-mix(in srgb, var(--spin-wheel-reveal-accent) 44%, white);
+  background: color-mix(in srgb, var(--spin-wheel-reveal-accent) 16%, white);
+  color: #223349;
+}
+
+.spin-wheel-button {
+  width: 100%;
+}
+
 .routine-layout {
   display: grid;
   grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.7fr);
@@ -348,23 +465,54 @@ code {
   place-items: center;
   width: 132px;
   aspect-ratio: 1 / 1;
+  padding: 6px;
 }
 
 .avatar-stack-large {
   width: min(52vw, 260px);
+  padding: 12px;
 }
 
-.avatar-base,
-.avatar-overlay {
-  position: absolute;
-  inset: 0;
+.avatar-base {
+  position: relative;
+  z-index: 1;
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
 
+.avatar-stack-dressed .avatar-base {
+  filter: drop-shadow(0 12px 20px rgba(72, 57, 49, 0.16));
+}
+
+.avatar-outfit-chip {
+  position: absolute;
+  right: -2px;
+  bottom: -6px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 42%;
+  aspect-ratio: 1 / 1;
+  padding: 8px;
+  border: 2px solid rgba(96, 80, 128, 0.16);
+  border-radius: 999px;
+  background: rgba(255, 252, 248, 0.92);
+  box-shadow: 0 10px 22px rgba(59, 63, 102, 0.14);
+}
+
+.avatar-stack-large .avatar-outfit-chip {
+  right: 6px;
+  bottom: 4px;
+  width: 36%;
+  padding: 12px;
+}
+
 .avatar-overlay {
-  transform: scale(0.97);
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: rotate(8deg);
 }
 
 .outfit-grid {
@@ -372,6 +520,161 @@ code {
   grid-template-columns: repeat(auto-fit, minmax(132px, 1fr));
   gap: 12px;
   margin-top: 14px;
+}
+
+.snack-step {
+  margin-top: 14px;
+}
+
+.snack-step-hint {
+  margin: 0 0 12px;
+  font-size: 0.95rem;
+}
+
+.snack-step-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.72fr);
+  gap: 14px;
+  align-items: stretch;
+}
+
+.snack-tray {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.snack-card {
+  display: grid;
+  gap: 8px;
+  justify-items: center;
+  min-height: 132px;
+  padding: 14px 12px;
+  border: 2px solid rgba(96, 80, 128, 0.14);
+  border-radius: 8px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--snack-accent) 68%, white), white);
+  box-shadow: 0 8px 22px rgba(59, 63, 102, 0.08);
+  cursor: grab;
+}
+
+.snack-card:disabled {
+  cursor: default;
+  opacity: 0.72;
+}
+
+.snack-card-dragging {
+  transform: scale(0.98);
+  box-shadow: 0 4px 14px rgba(59, 63, 102, 0.12);
+}
+
+.snack-card-emoji {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.74);
+  font-size: 1.9rem;
+}
+
+.snack-card-label {
+  font-weight: 700;
+}
+
+.snack-target {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 12px;
+  min-height: 100%;
+  padding: 18px;
+  border: 2px dashed rgba(96, 80, 128, 0.28);
+  border-radius: 8px;
+  background: rgba(253, 248, 255, 0.76);
+  text-align: center;
+}
+
+.snack-target-complete {
+  border-style: solid;
+  border-color: rgba(100, 176, 144, 0.44);
+  background: rgba(241, 255, 246, 0.88);
+}
+
+.snack-target-plate {
+  display: grid;
+  place-items: center;
+  width: 90px;
+  height: 90px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: inset 0 0 0 3px rgba(231, 216, 243, 0.8);
+  font-size: 2.5rem;
+}
+
+.snack-target-copy {
+  display: grid;
+  gap: 6px;
+}
+
+.otter-flop-step {
+  display: grid;
+  gap: 14px;
+}
+
+.otter-flop-stage {
+  position: relative;
+  min-height: 320px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255, 252, 247, 0.72), rgba(239, 234, 255, 0.4));
+}
+
+.otter-flop-dad {
+  position: absolute;
+  right: 10%;
+  bottom: 18%;
+  width: min(34vw, 188px);
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.otter-flop-bed {
+  position: absolute;
+  right: 2%;
+  bottom: 0;
+  width: min(48vw, 280px);
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.otter-flop-kid {
+  position: absolute;
+  left: 8%;
+  bottom: 9%;
+  width: min(42vw, 210px);
+  transition:
+    transform 1400ms cubic-bezier(0.2, 0.8, 0.26, 1),
+    filter 220ms ease;
+  transform-origin: center bottom;
+}
+
+.otter-flop-stage-ready .otter-flop-kid {
+  transform: translate3d(0, 0, 0) rotate(0deg);
+}
+
+.otter-flop-stage-jumping .otter-flop-kid {
+  transform: translate3d(145%, -42%, 0) rotate(8deg) scale(0.92);
+  filter: drop-shadow(0 18px 24px rgba(53, 57, 93, 0.16));
+}
+
+.otter-flop-stage-landed .otter-flop-kid {
+  transform: translate3d(120%, -14%, 0) rotate(2deg) scale(0.88);
+}
+
+.otter-flop-copy {
+  margin: 0;
+  color: #44597d;
+  font-weight: 600;
 }
 
 .outfit-card {
@@ -424,10 +727,42 @@ code {
   display: none;
 }
 
+.lullaby-step {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.lullaby-card {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border: 2px solid rgba(96, 80, 128, 0.14);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.66);
+  max-width: 420px;
+}
+
+.lullaby-card h3 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.lullaby-status {
+  margin: 0;
+  color: #44597d;
+  font-weight: 600;
+}
+
 @media (max-width: 860px) {
   .hero-game,
   .routine-layout,
-  .routine-characters {
+  .routine-characters,
+  .snack-step-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .spin-wheel-layout {
     grid-template-columns: 1fr;
   }
 
@@ -462,5 +797,21 @@ code {
 
   .pill {
     align-self: flex-start;
+  }
+
+  .otter-flop-stage {
+    min-height: 280px;
+  }
+
+  .otter-flop-kid {
+    width: min(54vw, 190px);
+  }
+
+  .otter-flop-stage-jumping .otter-flop-kid {
+    transform: translate3d(88%, -36%, 0) rotate(8deg) scale(0.92);
+  }
+
+  .otter-flop-stage-landed .otter-flop-kid {
+    transform: translate3d(72%, -12%, 0) rotate(2deg) scale(0.88);
   }
 }
