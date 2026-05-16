@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { advanceKidStep, createInitialSave, exportSaveToJson, saveGame } from "../game/save-game";
@@ -21,6 +21,21 @@ describe("App", () => {
     expect(
       screen.getByText("https://codewrangler55.github.io/OtterFlop/")
     ).toBeInTheDocument();
+  });
+
+  it("shows the splash briefly, then hides it after five seconds", () => {
+    vi.useFakeTimers();
+
+    render(<App />);
+
+    expect(screen.getByLabelText(/opening splash/i)).toBeInTheDocument();
+    expect(screen.getByText(/loading bedtime room/i)).toBeInTheDocument();
+
+    act(() => {
+      vi.advanceTimersByTime(5_000);
+    });
+
+    expect(screen.queryByLabelText(/opening splash/i)).not.toBeInTheDocument();
   });
 
   it("can enter the bedtime routine flow", async () => {
@@ -188,7 +203,7 @@ describe("App", () => {
     await user.click(screen.getByRole("button", { name: /Reset progress/i }));
 
     expect(screen.getByText(/1\/4 kids/i)).toBeInTheDocument();
-    expect(screen.getByText(/of 1 tucked in tonight/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/of 1 tucked in tonight/i).length).toBeGreaterThan(0);
     expect(screen.queryByRole("dialog", { name: /parent menu/i })).not.toBeInTheDocument();
   });
 

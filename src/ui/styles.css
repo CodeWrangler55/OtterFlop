@@ -42,6 +42,7 @@ code {
   position: absolute;
   top: 0;
   right: 0;
+  z-index: 40;
   width: 84px;
   height: 84px;
   border: 0;
@@ -64,6 +65,31 @@ code {
   gap: 18px;
   padding: 24px 20px;
   min-height: 320px;
+}
+
+.splash-screen {
+  position: fixed;
+  inset: 24px 16px auto;
+  z-index: 30;
+  max-width: 1180px;
+  margin: 0 auto;
+  pointer-events: none;
+  box-shadow: 0 20px 44px rgba(35, 39, 82, 0.22);
+}
+
+.splash-title {
+  margin: 0;
+  font-size: clamp(2.4rem, 6vw, 4rem);
+  line-height: 1.02;
+  font-weight: 800;
+  color: #fff8f5;
+}
+
+.splash-loading {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff2de;
 }
 
 .hero-copy {
@@ -128,6 +154,58 @@ code {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-content: end;
   gap: 12px;
+}
+
+.app-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.app-toolbar-copy {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.app-toolbar-copy h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.app-toolbar-copy .small-note {
+  margin: 0;
+}
+
+.app-toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.toolbar-status-card {
+  display: grid;
+  gap: 2px;
+  min-width: 150px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(239, 242, 255, 0.92);
+}
+
+.toolbar-status-card strong {
+  font-size: 1.2rem;
+}
+
+.toolbar-status-card span {
+  color: #44597d;
+}
+
+.app-toolbar-button {
+  min-width: 176px;
 }
 
 .panel-grid {
@@ -867,6 +945,15 @@ code {
     grid-template-columns: 1fr;
   }
 
+  .app-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .app-toolbar-actions {
+    justify-content: stretch;
+  }
+
   .spin-wheel-layout {
     grid-template-columns: 1fr;
   }
@@ -885,6 +972,10 @@ code {
     padding-inline: 12px;
   }
 
+  .splash-screen {
+    inset: 16px 12px auto;
+  }
+
   .hero-game {
     padding: 20px 16px;
   }
@@ -895,13 +986,19 @@ code {
 
   .panel-heading,
   .routine-header,
-  .reward-banner {
+  .reward-banner,
+  .app-toolbar-actions {
     flex-direction: column;
   }
 
   .primary-button,
   .secondary-button {
     width: 100%;
+  }
+
+  .app-toolbar-button {
+    width: 100%;
+    min-width: 0;
   }
 
   .pill {

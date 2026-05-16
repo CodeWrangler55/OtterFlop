@@ -43,6 +43,7 @@ type ScreenMode = "home" | "routine";
 
 const deployUrl = "https://codewrangler55.github.io/OtterFlop/";
 const parentTapGoal = 4;
+const splashDurationMs = 5_000;
 
 type SpinOutcome = {
   save: ReturnType<typeof createInitialSave>;
@@ -71,6 +72,7 @@ export function App() {
   const [spinToken, setSpinToken] = useState(0);
   const [isSpinAnimating, setIsSpinAnimating] = useState(false);
   const [pendingSpinOutcome, setPendingSpinOutcome] = useState<SpinOutcome | null>(null);
+  const [showSplash, setShowSplash] = useState(true);
   const importInputRef = useRef<HTMLInputElement | null>(null);
   const parentTapTimeoutIds = useRef<number[]>([]);
   const heroScene = sceneAssets.find((scene) => scene.id === "scene-home-bedroom-night")!;
@@ -99,6 +101,16 @@ export function App() {
         globalThis.clearTimeout(timeoutId);
       });
       parentTapTimeoutIds.current = [];
+    };
+  }, []);
+
+  useEffect(() => {
+    const timeoutId = globalThis.setTimeout(() => {
+      setShowSplash(false);
+    }, splashDurationMs);
+
+    return () => {
+      globalThis.clearTimeout(timeoutId);
     };
   }, []);
 
@@ -306,40 +318,64 @@ export function App() {
         onClick={handleParentTap}
       />
 
-      <section
-        className="hero hero-game"
-        style={{
-          backgroundImage: `linear-gradient(rgba(35, 39, 82, 0.24), rgba(35, 39, 82, 0.24)), url(${toRuntimeAssetUrl(
-            heroScene.imageFile
-          )})`
-        }}
-      >
-        <div className="hero-copy">
-          <p className="eyebrow">Bedtime tonight</p>
-          <h1>OtterFlop</h1>
-          <p className="lead">
-            Help each otter kid get ready for bed, then collect a bedtime surprise.
-          </p>
-          <div className="hero-actions">
-            <button type="button" className="primary-button" onClick={startRoutine}>
-              {nightIsComplete ? "Visit the bedtime room" : "Start bedtime"}
-            </button>
-            <div className="hero-status">
-              <strong>{save.bedtimeProgress.nightlyCompletedKidIds.length}</strong>
-              <span>of {save.bedtimeOrderKidIds.length} tucked in tonight</span>
+      {showSplash ? (
+        <section
+          className="splash-screen hero hero-game"
+          aria-label="Opening splash"
+          style={{
+            backgroundImage: `linear-gradient(rgba(35, 39, 82, 0.24), rgba(35, 39, 82, 0.24)), url(${toRuntimeAssetUrl(
+              heroScene.imageFile
+            )})`
+          }}
+        >
+          <div className="hero-copy">
+            <p className="eyebrow">Bedtime tonight</p>
+            <div className="splash-title">OtterFlop</div>
+            <p className="splash-loading">Loading bedtime room...</p>
+            <p className="lead">
+              Help each otter kid get ready for bed, then collect a bedtime surprise.
+            </p>
+            <div className="hero-actions">
+              <div className="hero-status">
+                <strong>{save.bedtimeProgress.nightlyCompletedKidIds.length}</strong>
+                <span>of {save.bedtimeOrderKidIds.length} tucked in tonight</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="hero-family">
-          {unlockedKids.map((kid) => (
-            <KidAvatar
-              key={kid.id}
-              kidId={kid.id}
-              outfitId={save.selectedOutfitByKidId[kid.id]}
-              label={kid.displayName}
-            />
-          ))}
+          <div className="hero-family">
+            {unlockedKids.map((kid) => (
+              <KidAvatar
+                key={kid.id}
+                kidId={kid.id}
+                outfitId={save.selectedOutfitByKidId[kid.id]}
+                label={kid.displayName}
+              />
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      <section className="app-toolbar panel">
+        <div className="app-toolbar-copy">
+          <p className="kicker">{screen === "routine" ? "Bedtime in progress" : "Bedtime tonight"}</p>
+          <h1>OtterFlop</h1>
+          <p className="small-note">
+            {screen === "routine"
+              ? `Helping ${activeKid?.displayName ?? "the otter kids"} get ready for bed.`
+              : "Tap start bedtime and jump straight into the routine."}
+          </p>
+        </div>
+        <div className="app-toolbar-actions">
+          <div className="toolbar-status-card">
+            <strong>{save.bedtimeProgress.nightlyCompletedKidIds.length}</strong>
+            <span>of {save.bedtimeOrderKidIds.length} tucked in tonight</span>
+          </div>
+          {screen === "home" ? (
+            <button type="button" className="primary-button app-toolbar-button" onClick={startRoutine}>
+              {nightIsComplete ? "Visit the bedtime room" : "Start bedtime"}
+            </button>
+          ) : null}
         </div>
       </section>
 
