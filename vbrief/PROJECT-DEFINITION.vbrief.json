@@ -1,0 +1,24 @@
+{
+  "vBRIEFInfo": {
+    "version": "0.6",
+    "author": "agent:deft-directive-setup",
+    "description": "Project identity gestalt",
+    "created": "2026-05-15T23:28:48.1375956Z"
+  },
+  "plan": {
+    "title": "OtterFlop",
+    "status": "running",
+    "narratives": {
+      "Overview": "OtterFlop is a non-commercial web-based game for a 4-year-old centered on caring for cute otters. It should be simple, calm, touch-friendly, and appropriate for short daily check-ins before bed.",
+      "TechStack": "Web App using HTML, CSS, and JavaScript with a touch-first interface optimized for Amazon Fire tablet browsers.",
+      "Strategy": "Use interview for this project.",
+      "Quality": "Run task check before every commit. Achieve >= 85% coverage overall + per-module where measurable. Prioritize fast load, large touch targets, and resilient offline-friendly state handling.",
+      "ProjectRules": "Non-commercial. Theme is taking care of cute otters. Must run on an Amazon Fire tablet. Must save state so the child can check on her otters each night.",
+      "DeftVersion": "0.30.0"
+    },
+    "policy": {
+      "allowDirectCommitsToMaster": false
+    },
+    "items": []
+  }
+}
