@@ -41,7 +41,7 @@ describe("App", () => {
     await user.click(screen.getByRole("button", { name: /start bedtime/i }));
     await user.click(screen.getByRole("button", { name: /Berry Bowl/i }));
     await user.click(screen.getByRole("button", { name: /Pick tonight's outfit/i }));
-    await user.click(screen.getByRole("button", { name: /Brush shiny teeth/i }));
+    await user.click(screen.getByRole("button", { name: /Moon Brush/i }));
     await user.click(screen.getByRole("button", { name: /Jump to dad/i }));
     await waitFor(
       () => {
@@ -166,6 +166,30 @@ describe("App", () => {
       configurable: true,
       value: originalText
     });
+  });
+
+  it("can reset progress from the parent menu", async () => {
+    const user = userEvent.setup();
+    const save = createInitialSave(new Date("2026-05-15T20:00:00Z"));
+    save.unlockedKidIds.push("kid-moss");
+    save.bedtimeOrderKidIds = ["kid-pip", "kid-moss"];
+    save.bedtimeProgress.nightlyCompletedKidIds = ["kid-pip"];
+    saveGame(save);
+
+    render(<App />);
+
+    expect(screen.getByText(/2\/4 kids/i)).toBeInTheDocument();
+
+    const hotspot = screen.getByRole("button", { name: /open parent menu/i });
+    await user.click(hotspot);
+    await user.click(hotspot);
+    await user.click(hotspot);
+    await user.click(hotspot);
+    await user.click(screen.getByRole("button", { name: /Reset progress/i }));
+
+    expect(screen.getByText(/1\/4 kids/i)).toBeInTheDocument();
+    expect(screen.getByText(/of 1 tucked in tonight/i)).toBeInTheDocument();
+    expect(screen.queryByRole("dialog", { name: /parent menu/i })).not.toBeInTheDocument();
   });
 
   it("loads an existing completed bedtime and shows the reward-ready state", () => {

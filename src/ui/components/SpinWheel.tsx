@@ -80,6 +80,7 @@ export function SpinWheel({
     : revealedReward
       ? `${revealedReward.label} is ready.`
       : idleLabel;
+  const canSpin = !(disabled || isAnimating || isSpinning || segments.length === 0);
 
   return (
     <section className="spin-wheel-card" aria-labelledby={`${wheelId}-title`}>
@@ -95,13 +96,20 @@ export function SpinWheel({
         <div className="spin-wheel-stage">
           <div className="spin-wheel-pointer" aria-hidden="true" />
           <div
-            className={`spin-wheel ${isAnimating ? "spin-wheel-active" : ""}`}
+            className={`spin-wheel ${isAnimating ? "spin-wheel-active" : ""} ${
+              canSpin ? "spin-wheel-clickable" : ""
+            }`}
             style={
               {
                 "--spin-wheel-gradient": gradient,
                 "--spin-wheel-rotation": `${rotationDegrees}deg`
               } as CSSProperties
             }
+            onClick={() => {
+              if (canSpin) {
+                onSpin();
+              }
+            }}
             onTransitionEnd={() => {
               if (!isAnimating) {
                 return;
@@ -116,6 +124,7 @@ export function SpinWheel({
             }}
             role="img"
             aria-label="Prize wheel"
+            aria-disabled={!canSpin}
           >
             <div className="spin-wheel-center" aria-hidden="true" />
             {segments.map((segment, index) => {
@@ -160,7 +169,7 @@ export function SpinWheel({
             type="button"
             className="primary-button spin-wheel-button"
             onClick={onSpin}
-            disabled={disabled || isAnimating || isSpinning || segments.length === 0}
+            disabled={!canSpin}
           >
             {isAnimating || isSpinning ? "Spinning..." : buttonLabel}
           </button>

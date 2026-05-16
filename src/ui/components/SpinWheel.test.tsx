@@ -36,6 +36,16 @@ describe("SpinWheel", () => {
     expect(screen.getByRole("img", { name: /prize wheel/i })).toBeInTheDocument();
   });
 
+  it("lets the child tap the wheel itself to start spinning", async () => {
+    const user = userEvent.setup();
+    const onSpin = vi.fn();
+
+    render(<SpinWheel segments={segments} rewardId={null} onSpin={onSpin} />);
+    await user.click(screen.getByRole("img", { name: /prize wheel/i }));
+
+    expect(onSpin).toHaveBeenCalledTimes(1);
+  });
+
   it("disables the trigger while spinning", () => {
     render(
       <SpinWheel

@@ -136,7 +136,10 @@ export function App() {
   const nightReadyForReward = canClaimNightlyReward(save);
   const nightIsComplete = isNightComplete(save);
   const stepHandledByComponent =
-    currentStep.id === "feed" || currentStep.id === "flop" || currentStep.id === "lullaby";
+    currentStep.id === "feed" ||
+    currentStep.id === "brush" ||
+    currentStep.id === "flop" ||
+    currentStep.id === "lullaby";
   const spinSegments = useMemo<SpinWheelSegment[]>(() => {
     const remainingKids = kids
       .filter((kid) => !save.unlockedKidIds.includes(kid.id))
@@ -284,6 +287,16 @@ export function App() {
     }
   }
 
+  function resetProgress() {
+    const freshSave = ensureNightState(createInitialSave());
+    setSave(freshSave);
+    setScreen("home");
+    setCurrentKidId(null);
+    setReward(null);
+    setImportError(null);
+    setParentMenuOpen(false);
+  }
+
   return (
     <main className="app-shell">
       <button
@@ -408,6 +421,7 @@ export function App() {
               onSelectOutfit={handleSelectOutfit}
               activeKidName={activeKid.displayName}
               onCompleteSnack={() => advanceRoutineForKid(activeKid.id)}
+              onCompleteBrush={() => advanceRoutineForKid(activeKid.id)}
               onCompleteFlop={() => advanceRoutineForKid(activeKid.id)}
               onCompleteLullaby={() => advanceRoutineForKid(activeKid.id)}
             />
@@ -488,7 +502,7 @@ export function App() {
             </div>
           </article>
 
-          <article className="panel">
+          <article className="panel panel-spin">
             <div className="panel-heading">
               <div>
                 <p className="kicker">Spin shelf</p>
@@ -595,6 +609,9 @@ export function App() {
                 onClick={() => importInputRef.current?.click()}
               >
                 Import save file
+              </button>
+              <button type="button" className="secondary-button" onClick={resetProgress}>
+                Reset progress
               </button>
             </div>
             <input

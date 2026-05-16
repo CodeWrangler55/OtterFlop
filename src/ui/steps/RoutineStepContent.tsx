@@ -1,5 +1,6 @@
 import type { BedtimeStepDefinition, OutfitDefinition } from "../../game/content";
 import { getAssetById, toRuntimeAssetUrl } from "../../game/content";
+import { BrushStep } from "./BrushStep";
 import { LullabyStep } from "./LullabyStep";
 import { OtterFlopStep } from "./OtterFlopStep";
 import { SnackStep } from "./SnackStep";
@@ -12,6 +13,7 @@ export function RoutineStepContent({
   onSelectOutfit,
   activeKidName = "this otter kid",
   onCompleteSnack = () => undefined,
+  onCompleteBrush = () => undefined,
   onCompleteFlop = () => undefined,
   onCompleteLullaby = () => undefined
 }: {
@@ -22,6 +24,7 @@ export function RoutineStepContent({
   onSelectOutfit: (outfitId: string) => void;
   activeKidName?: string;
   onCompleteSnack?: (snackId: string) => void;
+  onCompleteBrush?: (brushId: string) => void;
   onCompleteFlop?: () => void;
   onCompleteLullaby?: () => void;
 }) {
@@ -37,6 +40,10 @@ export function RoutineStepContent({
         onComplete={onCompleteFlop}
       />
     );
+  }
+
+  if (step.id === "brush") {
+    return <BrushStep kidName={activeKidName} onComplete={onCompleteBrush} />;
   }
 
   if (step.id === "lullaby") {
