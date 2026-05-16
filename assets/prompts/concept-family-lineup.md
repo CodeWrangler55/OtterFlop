@@ -1,0 +1,4 @@
+ID: concept-family-lineup
+Type: concept
+Goal: Early concept lineup sheet for the whole family cast.
+Prompt: A clean 2D storybook-style character lineup for a children's bedtime game, soft pastel palette, transparent background, six separate full-body characters evenly spaced and clearly separated: four cute otter kids named Pip, Moss, Bubble, and Ember, plus one mommy otter and one daddy otter. Front-facing or slight three-quarter view, warm gentle expressions, rounded shapes, bedtime-friendly calm mood, simple readable silhouettes, polished children's game art, no text, no props, no clothing baked into the four kid bodies beyond neutral base character bodies suitable for later outfit overlays. Keep each character visually distinct but stylistically consistent. Output as a high-quality bitmap asset sheet on a transparent background.

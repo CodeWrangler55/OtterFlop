@@ -9,9 +9,11 @@ describe("App", () => {
     expect(screen.getByRole("heading", { name: "OtterFlop" })).toBeInTheDocument();
     expect(screen.getByText(/GitHub Pages target/i)).toBeInTheDocument();
     expect(screen.getByText(/asset prompt catalog/i)).toBeInTheDocument();
+    expect(screen.getByAltText("Pip")).toBeInTheDocument();
+    expect(screen.getByAltText(/Mommy otter character/i)).toBeInTheDocument();
+    expect(screen.getByAltText(/Concept family lineup/i)).toBeInTheDocument();
     expect(
       screen.getByText("https://codewrangler55.github.io/OtterFlop/")
     ).toBeInTheDocument();
   });
 });
-

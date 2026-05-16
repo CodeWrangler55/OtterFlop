@@ -1,6 +1,6 @@
 import assetCatalogJson from "../../assets/catalog.json";
 
-export type AssetType = "kid" | "outfit" | "parent" | "scene" | "prop";
+export type AssetType = "kid" | "outfit" | "parent" | "scene" | "prop" | "concept";
 
 export type AssetRecord = {
   id: string;
@@ -35,6 +35,7 @@ type AssetCatalogFile = {
 const assetCatalogFile = assetCatalogJson as AssetCatalogFile;
 
 export const assetCatalog = assetCatalogFile.assets;
+export const runtimeAssetCatalog = assetCatalog.filter((asset) => asset.type !== "concept");
 
 export const kids: KidDefinition[] = [
   { id: "kid-pip", displayName: "Pip", baseAssetId: "kid-pip" },
@@ -88,6 +89,7 @@ export const outfits: OutfitDefinition[] = [
 
 export const parentAssets = assetCatalog.filter((asset) => asset.type === "parent");
 export const sceneAssets = assetCatalog.filter((asset) => asset.type === "scene");
+export const conceptAssets = assetCatalog.filter((asset) => asset.type === "concept");
 
 export const starterKidId = kids[0].id;
 export const starterOutfitId = outfits[0].id;
@@ -96,3 +98,16 @@ export function hasAssetId(id: string): boolean {
   return assetCatalog.some((asset) => asset.id === id);
 }
 
+export function getAssetById(id: string): AssetRecord {
+  const asset = assetCatalog.find((entry) => entry.id === id);
+
+  if (!asset) {
+    throw new Error(`Unknown asset id: ${id}`);
+  }
+
+  return asset;
+}
+
+export function toRuntimeAssetUrl(imageFile: string): string {
+  return `${import.meta.env.BASE_URL}${imageFile}`;
+}

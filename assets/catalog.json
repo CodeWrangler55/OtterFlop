@@ -5,13 +5,22 @@
   },
   "assets": [
     {
+      "id": "concept-family-lineup",
+      "type": "concept",
+      "label": "Concept family lineup sheet",
+      "group": "concepts",
+      "promptFile": "assets/prompts/concept-family-lineup.md",
+      "imageFile": "assets/generated/concept-family-lineup.png",
+      "status": "generated"
+    },
+    {
       "id": "kid-pip",
       "type": "kid",
       "label": "Pip otter kid base character",
       "group": "kids",
       "promptFile": "assets/prompts/kid-pip.md",
-      "imageFile": "assets/generated/kid-pip.webp",
-      "status": "prompted"
+      "imageFile": "assets/generated/kid-pip.png",
+      "status": "generated"
     },
     {
       "id": "kid-moss",
@@ -19,8 +28,8 @@
       "label": "Moss otter kid base character",
       "group": "kids",
       "promptFile": "assets/prompts/kid-moss.md",
-      "imageFile": "assets/generated/kid-moss.webp",
-      "status": "prompted"
+      "imageFile": "assets/generated/kid-moss.png",
+      "status": "generated"
     },
     {
       "id": "kid-bubble",
@@ -28,8 +37,8 @@
       "label": "Bubble otter kid base character",
       "group": "kids",
       "promptFile": "assets/prompts/kid-bubble.md",
-      "imageFile": "assets/generated/kid-bubble.webp",
-      "status": "prompted"
+      "imageFile": "assets/generated/kid-bubble.png",
+      "status": "generated"
     },
     {
       "id": "kid-ember",
@@ -37,8 +46,8 @@
       "label": "Ember otter kid base character",
       "group": "kids",
       "promptFile": "assets/prompts/kid-ember.md",
-      "imageFile": "assets/generated/kid-ember.webp",
-      "status": "prompted"
+      "imageFile": "assets/generated/kid-ember.png",
+      "status": "generated"
     },
     {
       "id": "parent-mom",
@@ -46,8 +55,8 @@
       "label": "Mommy otter character",
       "group": "parents",
       "promptFile": "assets/prompts/parent-mom.md",
-      "imageFile": "assets/generated/parent-mom.webp",
-      "status": "prompted"
+      "imageFile": "assets/generated/parent-mom.png",
+      "status": "generated"
     },
     {
       "id": "parent-dad",
@@ -55,8 +64,8 @@
       "label": "Daddy otter character",
       "group": "parents",
       "promptFile": "assets/prompts/parent-dad.md",
-      "imageFile": "assets/generated/parent-dad.webp",
-      "status": "prompted"
+      "imageFile": "assets/generated/parent-dad.png",
+      "status": "generated"
     },
     {
       "id": "scene-home-bedroom-night",
@@ -64,8 +73,8 @@
       "label": "Night bedroom home screen background",
       "group": "scenes",
       "promptFile": "assets/prompts/scene-home-bedroom-night.md",
-      "imageFile": "assets/generated/scene-home-bedroom-night.webp",
-      "status": "prompted"
+      "imageFile": "assets/generated/scene-home-bedroom-night.png",
+      "status": "generated"
     },
     {
       "id": "scene-snack-table",
@@ -73,8 +82,8 @@
       "label": "Feeding scene background",
       "group": "scenes",
       "promptFile": "assets/prompts/scene-snack-table.md",
-      "imageFile": "assets/generated/scene-snack-table.webp",
-      "status": "prompted"
+      "imageFile": "assets/generated/scene-snack-table.png",
+      "status": "generated"
     },
     {
       "id": "scene-bathroom-sink",
@@ -82,8 +91,8 @@
       "label": "Brush teeth scene background",
       "group": "scenes",
       "promptFile": "assets/prompts/scene-bathroom-sink.md",
-      "imageFile": "assets/generated/scene-bathroom-sink.webp",
-      "status": "prompted"
+      "imageFile": "assets/generated/scene-bathroom-sink.png",
+      "status": "generated"
     },
     {
       "id": "scene-prayer-bedroom",
@@ -91,8 +100,8 @@
       "label": "Prayer moment bedroom scene",
       "group": "scenes",
       "promptFile": "assets/prompts/scene-prayer-bedroom.md",
-      "imageFile": "assets/generated/scene-prayer-bedroom.webp",
-      "status": "prompted"
+      "imageFile": "assets/generated/scene-prayer-bedroom.png",
+      "status": "generated"
     },
     {
       "id": "scene-lullaby-bedroom",
@@ -100,8 +109,8 @@
       "label": "Lullaby bedroom scene",
       "group": "scenes",
       "promptFile": "assets/prompts/scene-lullaby-bedroom.md",
-      "imageFile": "assets/generated/scene-lullaby-bedroom.webp",
-      "status": "prompted"
+      "imageFile": "assets/generated/scene-lullaby-bedroom.png",
+      "status": "generated"
     },
     {
       "id": "scene-tuck-in-bedroom",
@@ -109,8 +118,8 @@
       "label": "Tuck-in bedtime scene",
       "group": "scenes",
       "promptFile": "assets/prompts/scene-tuck-in-bedroom.md",
-      "imageFile": "assets/generated/scene-tuck-in-bedroom.webp",
-      "status": "prompted"
+      "imageFile": "assets/generated/scene-tuck-in-bedroom.png",
+      "status": "generated"
     },
     {
       "id": "prop-otter-flop-bed",
@@ -118,8 +127,8 @@
       "label": "Otter Flop bed prop",
       "group": "props",
       "promptFile": "assets/prompts/prop-otter-flop-bed.md",
-      "imageFile": "assets/generated/prop-otter-flop-bed.webp",
-      "status": "prompted"
+      "imageFile": "assets/generated/prop-otter-flop-bed.png",
+      "status": "generated"
     },
     {
       "id": "outfit-pajamas-moon",
@@ -127,8 +136,8 @@
       "label": "Moon pajamas outfit overlay",
       "group": "outfits",
       "promptFile": "assets/prompts/outfit-pajamas-moon.md",
-      "imageFile": "assets/generated/outfit-pajamas-moon.webp",
-      "status": "prompted"
+      "imageFile": "assets/generated/outfit-pajamas-moon.png",
+      "status": "generated"
     },
     {
       "id": "outfit-pajamas-stars",
@@ -136,8 +145,8 @@
       "label": "Stars pajamas outfit overlay",
       "group": "outfits",
       "promptFile": "assets/prompts/outfit-pajamas-stars.md",
-      "imageFile": "assets/generated/outfit-pajamas-stars.webp",
-      "status": "prompted"
+      "imageFile": "assets/generated/outfit-pajamas-stars.png",
+      "status": "generated"
     },
     {
       "id": "outfit-nightgown-cloud",
@@ -145,8 +154,8 @@
       "label": "Cloud nightgown outfit overlay",
       "group": "outfits",
       "promptFile": "assets/prompts/outfit-nightgown-cloud.md",
-      "imageFile": "assets/generated/outfit-nightgown-cloud.webp",
-      "status": "prompted"
+      "imageFile": "assets/generated/outfit-nightgown-cloud.png",
+      "status": "generated"
     },
     {
       "id": "outfit-sweater-sunset",
@@ -154,8 +163,8 @@
       "label": "Sunset sweater outfit overlay",
       "group": "outfits",
       "promptFile": "assets/prompts/outfit-sweater-sunset.md",
-      "imageFile": "assets/generated/outfit-sweater-sunset.webp",
-      "status": "prompted"
+      "imageFile": "assets/generated/outfit-sweater-sunset.png",
+      "status": "generated"
     },
     {
       "id": "outfit-hat-nightcap",
@@ -163,8 +172,8 @@
       "label": "Nightcap hat overlay",
       "group": "outfits",
       "promptFile": "assets/prompts/outfit-hat-nightcap.md",
-      "imageFile": "assets/generated/outfit-hat-nightcap.webp",
-      "status": "prompted"
+      "imageFile": "assets/generated/outfit-hat-nightcap.png",
+      "status": "generated"
     },
     {
       "id": "outfit-hat-bow",
@@ -172,8 +181,8 @@
       "label": "Bow hat overlay",
       "group": "outfits",
       "promptFile": "assets/prompts/outfit-hat-bow.md",
-      "imageFile": "assets/generated/outfit-hat-bow.webp",
-      "status": "prompted"
+      "imageFile": "assets/generated/outfit-hat-bow.png",
+      "status": "generated"
     },
     {
       "id": "outfit-accessory-plush-fish",
@@ -181,8 +190,8 @@
       "label": "Plush fish accessory overlay",
       "group": "outfits",
       "promptFile": "assets/prompts/outfit-accessory-plush-fish.md",
-      "imageFile": "assets/generated/outfit-accessory-plush-fish.webp",
-      "status": "prompted"
+      "imageFile": "assets/generated/outfit-accessory-plush-fish.png",
+      "status": "generated"
     },
     {
       "id": "outfit-accessory-shell-necklace",
@@ -190,9 +199,8 @@
       "label": "Shell necklace accessory overlay",
       "group": "outfits",
       "promptFile": "assets/prompts/outfit-accessory-shell-necklace.md",
-      "imageFile": "assets/generated/outfit-accessory-shell-necklace.webp",
-      "status": "prompted"
+      "imageFile": "assets/generated/outfit-accessory-shell-necklace.png",
+      "status": "generated"
     }
   ]
 }
-

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   assetCatalog,
+  conceptAssets,
   hasAssetId,
   kids,
   outfits,
@@ -12,6 +13,11 @@ describe("content catalog", () => {
   it("keeps asset ids unique", () => {
     const ids = assetCatalog.map((asset) => asset.id);
     expect(new Set(ids).size).toBe(ids.length);
+  });
+
+  it("keeps one concept sheet entry for review", () => {
+    expect(conceptAssets).toHaveLength(1);
+    expect(conceptAssets[0].id).toBe("concept-family-lineup");
   });
 
   it("keeps kid ids aligned with asset ids", () => {
@@ -33,7 +39,7 @@ describe("content catalog", () => {
   it("uses filenames that match asset ids", () => {
     for (const asset of assetCatalog) {
       expect(asset.promptFile).toContain(`${asset.id}.md`);
-      expect(asset.imageFile).toContain(`${asset.id}.webp`);
+      expect(asset.imageFile).toContain(`${asset.id}.png`);
     }
   });
 
@@ -42,4 +48,3 @@ describe("content catalog", () => {
     expect(outfits.some((outfit) => outfit.id === starterOutfitId)).toBe(true);
   });
 });
-
