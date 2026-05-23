@@ -4,6 +4,51 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { advanceKidStep, createInitialSave, exportSaveToJson, saveGame } from "../game/save-game";
 import { App } from "./App";
 
+function mockBrushGeometry() {
+  const stage = screen.getByLabelText(/Brush Pip's teeth/i);
+  const mouth = stage.querySelector(".brush-otter-mouth") as HTMLElement;
+
+  vi.spyOn(stage, "getBoundingClientRect").mockReturnValue({
+    left: 0,
+    top: 0,
+    right: 400,
+    bottom: 400,
+    width: 400,
+    height: 400,
+    x: 0,
+    y: 0,
+    toJSON: () => ({})
+  });
+
+  vi.spyOn(mouth, "getBoundingClientRect").mockReturnValue({
+    left: 135,
+    top: 120,
+    right: 265,
+    bottom: 190,
+    width: 130,
+    height: 70,
+    x: 135,
+    y: 120,
+    toJSON: () => ({})
+  });
+
+  return stage;
+}
+
+function scrubTeeth() {
+  const stage = mockBrushGeometry();
+  const brush = screen.getByRole("button", { name: /Move Moon Brush over Pip's teeth/i });
+
+  fireEvent.mouseDown(brush, { clientX: 150, clientY: 150 });
+
+  for (let index = 0; index < 30; index += 1) {
+    fireEvent.mouseMove(stage, {
+      clientX: index % 2 === 0 ? 245 : 155,
+      clientY: 154
+    });
+  }
+}
+
 describe("App", () => {
   beforeEach(() => {
     localStorage.clear();
@@ -56,7 +101,7 @@ describe("App", () => {
     await user.click(screen.getByRole("button", { name: /start bedtime/i }));
     await user.click(screen.getByRole("button", { name: /Berry Bowl/i }));
     await user.click(screen.getByRole("button", { name: /Pick tonight's outfit/i }));
-    await user.click(screen.getByRole("button", { name: /Moon Brush/i }));
+    scrubTeeth();
     await user.click(screen.getByRole("button", { name: /Jump to dad/i }));
     await waitFor(
       () => {

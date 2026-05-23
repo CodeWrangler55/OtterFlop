@@ -1,0 +1,41 @@
+{
+  "version": "1",
+  "migration_timestamp": "2026-05-23T03:06:24Z",
+  "backups": [
+    {
+      "source": "SPECIFICATION.md",
+      "backup": "SPECIFICATION.premigrate.md",
+      "source_sha256": "0a408408c29fa1e2ff5a81ab821ee30001ac451139265733e292348637dea814",
+      "size_bytes": 2860
+    },
+    {
+      "source": "PRD.md",
+      "backup": "PRD.premigrate.md",
+      "source_sha256": "a6613f4f68320a216f3a2d1444985dd256c24f4b18d09e5203b8e1cedee42e56",
+      "size_bytes": 3008
+    },
+    {
+      "source": "vbrief/specification.vbrief.json",
+      "backup": "vbrief/specification.premigrate.vbrief.json",
+      "source_sha256": "0aa44d4288f0c7b22037aace397590f34a2a680475cd606f45bdc299a264529b",
+      "size_bytes": 2946
+    }
+  ],
+  "created_files": [],
+  "created_dirs": [
+    "vbrief/migration"
+  ],
+  "post_migration_stub_hashes": {
+    "SPECIFICATION.md": "9805c5901a719aa7e951573e4689e50bfc8ee5824606a744922a905735257f90"
+  },
+  "renames": [],
+  "file_modifications": [
+    {
+      "path": ".gitignore",
+      "operation": "append",
+      "pre_hash": "7c1aab49d10ce4a837338ea10b7944d0c50aac41ca2a41ba86b6d768a61084e3",
+      "post_hash": "a880a8ca6596cbedad21c148e017486d0aaef354a65a27adc02754ce4fd6c4b7",
+      "appended_content": "\n# Migration backups (created by `task migrate:vbrief`) -- do NOT commit.\n# Post-commit, pre-migration state is recoverable via git history; see\n# deft/main.md § Safety flags for the post-commit recovery path.\n*.premigrate.md\n*.premigrate.vbrief.json\n"
+    }
+  ]
+}

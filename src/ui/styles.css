@@ -716,7 +716,7 @@ code {
 
 .brush-step-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(220px, 0.72fr);
+  grid-template-columns: minmax(130px, 0.42fr) minmax(320px, 1fr);
   gap: 14px;
   align-items: stretch;
 }
@@ -731,13 +731,13 @@ code {
   display: grid;
   gap: 8px;
   justify-items: center;
-  min-height: 132px;
+  min-height: 126px;
   padding: 14px 12px;
   border: 2px solid rgba(96, 80, 128, 0.14);
   border-radius: 8px;
   background: linear-gradient(180deg, color-mix(in srgb, var(--brush-accent) 52%, white), white);
   box-shadow: 0 8px 22px rgba(59, 63, 102, 0.08);
-  cursor: grab;
+  cursor: pointer;
 }
 
 .brush-card:disabled {
@@ -745,58 +745,242 @@ code {
   opacity: 0.72;
 }
 
-.brush-card-dragging {
-  transform: scale(0.98);
-  box-shadow: 0 4px 14px rgba(59, 63, 102, 0.12);
+.brush-card-selected {
+  border-color: color-mix(in srgb, var(--brush-accent) 62%, #5d567a);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--brush-accent) 26%, transparent);
 }
 
-.brush-card-emoji {
-  display: grid;
-  place-items: center;
-  width: 56px;
-  height: 56px;
+.brush-card-icon {
+  position: relative;
+  width: 76px;
+  height: 58px;
+}
+
+.brush-card-head,
+.brush-card-handle,
+.scrub-toothbrush-head,
+.scrub-toothbrush-handle {
+  position: absolute;
+  display: block;
+}
+
+.brush-card-head {
+  top: 8px;
+  left: 6px;
+  width: 32px;
+  height: 20px;
+  border-radius: 8px 8px 4px 4px;
+  background:
+    repeating-linear-gradient(90deg, #ffffff 0 4px, #d8f4ff 4px 7px),
+    #ffffff;
+  box-shadow: inset 0 -4px 0 rgba(70, 145, 170, 0.16);
+}
+
+.brush-card-handle {
+  top: 22px;
+  left: 30px;
+  width: 44px;
+  height: 13px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.74);
-  font-size: 1.9rem;
+  background: var(--brush-accent);
+  transform: rotate(24deg);
+  transform-origin: left center;
 }
 
 .brush-card-label {
   font-weight: 700;
 }
 
-.brush-target {
+.brush-play-stage {
+  position: relative;
   display: grid;
-  align-content: center;
-  justify-items: center;
-  gap: 12px;
-  min-height: 100%;
+  min-height: 390px;
+  overflow: hidden;
   padding: 18px;
-  border: 2px dashed rgba(96, 80, 128, 0.28);
+  border: 2px solid rgba(96, 80, 128, 0.14);
   border-radius: 8px;
-  background: rgba(253, 248, 255, 0.76);
+  background:
+    radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.86), transparent 24%),
+    linear-gradient(180deg, rgba(222, 249, 255, 0.86), rgba(255, 246, 238, 0.86));
   text-align: center;
+  touch-action: none;
 }
 
-.brush-target-complete {
-  border-style: solid;
-  border-color: rgba(100, 176, 144, 0.44);
-  background: rgba(241, 255, 246, 0.88);
+.brush-play-stage-complete {
+  background:
+    radial-gradient(circle at 50% 28%, rgba(255, 255, 255, 0.92), transparent 26%),
+    linear-gradient(180deg, rgba(220, 255, 245, 0.9), rgba(255, 252, 235, 0.86));
 }
 
-.brush-target-mouth {
-  display: grid;
-  place-items: center;
-  width: 90px;
-  height: 90px;
+.brush-otter-face {
+  position: absolute;
+  inset: 34px 20px auto;
+  height: 260px;
+}
+
+.brush-otter-ear,
+.brush-otter-head {
+  position: absolute;
+  background: #a87552;
+  box-shadow: inset 0 -12px 0 rgba(98, 61, 38, 0.12);
+}
+
+.brush-otter-ear {
+  top: 10px;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+}
+
+.brush-otter-ear-left {
+  left: calc(50% - 128px);
+}
+
+.brush-otter-ear-right {
+  right: calc(50% - 128px);
+}
+
+.brush-otter-head {
+  left: 50%;
+  top: 26px;
+  width: min(76vw, 270px);
+  height: 214px;
+  border-radius: 46% 46% 42% 42%;
+  transform: translateX(-50%);
+}
+
+.brush-otter-eye,
+.brush-otter-nose {
+  position: absolute;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.88);
-  box-shadow: inset 0 0 0 3px rgba(231, 216, 243, 0.8);
-  font-size: 2.5rem;
+  background: #2e2733;
 }
 
-.brush-target-copy {
+.brush-otter-eye {
+  top: 62px;
+  width: 18px;
+  height: 18px;
+}
+
+.brush-otter-eye-left {
+  left: 78px;
+}
+
+.brush-otter-eye-right {
+  right: 78px;
+}
+
+.brush-otter-nose {
+  left: 50%;
+  top: 90px;
+  width: 36px;
+  height: 24px;
+  transform: translateX(-50%);
+}
+
+.brush-otter-mouth {
+  position: absolute;
+  left: 50%;
+  top: 124px;
+  display: grid;
+  grid-template-columns: repeat(4, 28px);
+  gap: 3px;
+  padding: 10px;
+  border-radius: 14px 14px 28px 28px;
+  background: #493342;
+  transform: translateX(-50%);
+}
+
+.brush-otter-mouth span {
+  width: 28px;
+  height: 34px;
+  border-radius: 4px 4px 9px 9px;
+  background: linear-gradient(180deg, #fff5d5, #e9d898);
+  box-shadow: inset 0 -5px 0 rgba(143, 126, 60, 0.22);
+}
+
+.brush-otter-mouth-clean span {
+  background: linear-gradient(180deg, #ffffff, #dff9ff);
+  box-shadow:
+    0 0 12px rgba(255, 255, 255, 0.92),
+    inset 0 -5px 0 rgba(129, 206, 220, 0.14);
+}
+
+.scrub-toothbrush {
+  position: absolute;
+  left: var(--brush-x);
+  top: var(--brush-y);
+  width: 128px;
+  height: 92px;
+  border: 0;
+  background: transparent;
+  cursor: grab;
+  touch-action: none;
+  transform: translate(-22%, -34%) rotate(-18deg);
+  transition: filter 160ms ease;
+  z-index: 3;
+}
+
+.scrub-toothbrush:disabled {
+  cursor: default;
+}
+
+.scrub-toothbrush-active {
+  cursor: grabbing;
+  filter: drop-shadow(0 8px 12px rgba(59, 63, 102, 0.2));
+}
+
+.scrub-toothbrush-head {
+  top: 5px;
+  left: 4px;
+  width: 48px;
+  height: 34px;
+  border-radius: 10px 10px 5px 5px;
+  background:
+    repeating-linear-gradient(90deg, #ffffff 0 5px, #cdefff 5px 9px),
+    #ffffff;
+  box-shadow: inset 0 -6px 0 rgba(70, 145, 170, 0.18);
+}
+
+.scrub-toothbrush-handle {
+  top: 30px;
+  left: 44px;
+  width: 88px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--brush-accent);
+  transform: rotate(23deg);
+  transform-origin: left center;
+  box-shadow: inset 0 -5px 0 rgba(59, 63, 102, 0.14);
+}
+
+.brush-progress {
+  align-self: end;
   display: grid;
   gap: 6px;
+  justify-items: stretch;
+  width: min(100%, 360px);
+  margin: 0 auto;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 8px 22px rgba(59, 63, 102, 0.08);
+  z-index: 2;
+}
+
+.brush-progress-track {
+  height: 14px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(96, 80, 128, 0.12);
+}
+
+.brush-progress-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #7fd0ae, #ffd77b);
+  transition: width 120ms ease;
 }
 
 .otter-flop-step {
@@ -941,7 +1125,8 @@ code {
   .hero-game,
   .routine-layout,
   .routine-characters,
-  .snack-step-layout {
+  .snack-step-layout,
+  .brush-step-layout {
     grid-template-columns: 1fr;
   }
 
